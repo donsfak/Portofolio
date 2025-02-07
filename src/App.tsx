@@ -32,7 +32,9 @@ function App() {
     'NUMPY',
     'MATPLOTLIB',
     'R',
-    'Git'
+    'Git',
+    'REACT',
+    
   ];
 
   return (
@@ -64,6 +66,13 @@ function App() {
       {/* Hero Section */}
       <header className="min-h-screen flex items-center justify-center pt-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
+        <div className="mr-8">
+      <img 
+        src="path/to/ton-image.jpg" 
+        alt="Photo de Soro Falibeta" 
+        className="w-32 h-32 rounded-full border-4 border-gray-300 shadow-lg"
+      />
+    </div>
           <h1 className="text-8xl font-bold mb-6 animate-slide-up" style={{ animationDelay: '0.2s' }}>
             Soro <span className="gradient-text">Falibeta</span>
           </h1>
@@ -236,6 +245,7 @@ function App() {
       <footer className="border-t border-gray-200 dark:border-white/10 py-12">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <p className="text-gray-600 dark:text-gray-400">© 2025 Soro Falibeta. All rights reserved.</p>
+          <p className="text-gray-600 dark:text-gray-400">About this website: built with React(App Router & Server Actions), TypeScript, Tailwind CSS, React Email & Resend, Vercel hosting.</p>
         </div>
       </footer>
     </div>
