@@ -65,45 +65,62 @@ function App() {
 
       {/* Hero Section */}
       <header className="min-h-screen flex items-center justify-center pt-16">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-        <div className="mr-8">
-      <img 
-        src="path/to/ton-image.jpg" 
-        alt="Photo de Soro Falibeta" 
-        className="w-32 h-32 rounded-full border-4 border-gray-300 shadow-lg"
-      />
-    </div>
-          <h1 className="text-8xl font-bold mb-6 animate-slide-up" style={{ animationDelay: '0.2s' }}>
-            Soro <span className="gradient-text">Falibeta</span>
-          </h1>
-          <p className="text-3xl text-gray-600 dark:text-gray-400 mb-12 animate-slide-up" style={{ animationDelay: '0.4s' }}>
-            Data Scientist Junior
-          </p>
-          <div className="flex gap-6 justify-center mb-16 animate-slide-up" style={{ animationDelay: '0.6s' }}>
-            <a href="https://github.com/donsfak" 
-              target="_blank" 
-              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
-              <Github className="w-8 h-8" />
-            </a>
-            <a href="https://www.linkedin.com/in/falibeta-soro-8678b62a1/" 
-              target="_blank" 
-              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
-              <Linkedin className="w-8 h-8" />
-            </a>
-            <a href="mailto:falibetasoro@gmail.com" 
-              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
-              <Mail className="w-8 h-8" />
-            </a>
-          </div>
-          <a href="/assets/data analyste junior.pdf" download="data analyste junior.pdf" className="inline-block">
-
-  <button className="px-8 py-4 bg-blue-500 hover:bg-blue-600 rounded-full text-lg font-medium text-white transition-colors animate-slide-up" style={{ animationDelay: '0.8s' }}>
-    <Download className="w-5 h-5 inline-block mr-2" />
-    Download CV
-  </button>
-</a>
+  <div className="max-w-4xl mx-auto px-4 text-center relative">
+    
+    {/* Image centrée au-dessus du titre avec emoji 👋 */}
+    <div className="absolute -top-16 left-1/2 transform -translate-x-1/2">
+      <div className="relative">
+        <img 
+          src="/assets/photo identite.jpg" 
+          alt="Photo de Soro Falibeta" 
+          className="w-32 h-32 rounded-full border-4 border-white shadow-lg"
+        />
+        {/* Emoji 👋 bien collé sur le bord du cercle */}
+        <div className="absolute right-0 bottom-0 translate-x-1/4 translate-y-1/4 text-3xl animate-waving-hand">
+          👋
         </div>
-      </header>
+      </div>
+    </div>
+
+    {/* Titre et description */}
+    <h1 className="text-8xl font-bold mt-20 mb-6 animate-slide-up relative" style={{ animationDelay: '0.2s' }}>
+      Soro <span className="gradient-text">Falibeta</span>
+    </h1>
+    <p className="text-3xl text-gray-600 dark:text-gray-400 mb-12 animate-slide-up" style={{ animationDelay: '0.4s' }}>
+      Data Scientist Junior
+    </p>
+
+    {/* Liens sociaux */}
+    <div className="flex gap-6 justify-center mb-16 animate-slide-up" style={{ animationDelay: '0.6s' }}>
+      <a href="https://github.com/donsfak" 
+        target="_blank" 
+        className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
+        <Github className="w-8 h-8" />
+      </a>
+      <a href="https://www.linkedin.com/in/falibeta-soro-8678b62a1/" 
+        target="_blank" 
+        className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
+        <Linkedin className="w-8 h-8" />
+      </a>
+      <a href="mailto:falibetasoro@gmail.com" 
+        className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
+        <Mail className="w-8 h-8" />
+      </a>
+    </div>
+
+    {/* Bouton Download CV */}
+    <a href="/assets/data analyste junior.pdf" download="data analyste junior.pdf" className="inline-block">
+      <button className="px-8 py-4 bg-blue-500 hover:bg-blue-600 rounded-full text-lg font-medium text-white transition-colors animate-slide-up" style={{ animationDelay: '0.8s' }}>
+        <Download className="w-5 h-5 inline-block mr-2" />
+        Download CV
+      </button>
+    </a>
+    
+  </div>
+</header>
+
+
+
 
       <main>
         {/* About Section */}
