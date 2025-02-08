@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, Download, ExternalLink, Code, Briefcase, User, Cpu, Moon, Sun } from 'lucide-react';
+import { Github, Linkedin, Mail, Download, ExternalLink, Code, Briefcase, User, Cpu, Moon, Sun, Menu } from 'lucide-react';
 
 function App() {
   const [theme, setTheme] = useState(() => {
@@ -8,7 +8,12 @@ function App() {
     }
     return 'dark';
   });
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+  
   useEffect(() => {
     const root = window.document.documentElement;
     root.classList.remove('light', 'dark');
@@ -21,46 +26,41 @@ function App() {
   };
 
   const skills = [
-    'Flutter', 
-    'SQL', 
-    'MySQL', 
-    'PostgreSQL',
-    'PANDAS', 
-    'POWER BI', 
-    'Tableau', 
-    'PYTHON',
-    'NUMPY',
-    'MATPLOTLIB',
-    'R',
-    'Git',
-    'REACT',
-    
+    "Flutter", "SQL", "MySQL", "PostgreSQL",
+  "Pandas", "Power BI", "Tableau", "Python",
+  "NumPy", "Matplotlib", "R", "Git", "React"
   ];
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-black text-gray-900 dark:text-white">
       {/* Navigation */}
+      <div className="overflow-x-hidden">
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-sm border-b border-gray-200 dark:border-white/10">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+        <div className="max-w-6xl mx-auto px-6 sm:px-4 py-4 flex justify-between items-center">
           <span className="text-2xl font-bold gradient-text">SFAK</span>
-          <div className="flex items-center gap-8">
+          <div className="md:hidden">
+            <button onClick={toggleMenu} className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10">
+              <Menu className="w-6 h-6" />
+            </button>
+          </div>
+          <div className="hidden md:flex items-center gap-6">
             <a href="#about" className="nav-link">About</a>
             <a href="#experience" className="nav-link">Experience</a>
             <a href="#projects" className="nav-link">Projects</a>
             <a href="#skills" className="nav-link">Skills</a>
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
-              aria-label="Toggle theme"
-            >
-              {theme === 'dark' ? (
-                <Sun className="w-5 h-5 text-yellow-400" />
-              ) : (
-                <Moon className="w-5 h-5" />
-              )}
+            <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors" aria-label="Toggle theme">
+              {theme === 'dark' ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5" />}
             </button>
           </div>
         </div>
+        {isMenuOpen && (
+          <div className="md:hidden bg-white dark:bg-black border-t border-gray-200 dark:border-white/10 p-4">
+            <a href="#about" className="block py-2">About</a>
+            <a href="#experience" className="block py-2">Experience</a>
+            <a href="#projects" className="block py-2">Projects</a>
+            <a href="#skills" className="block py-2">Skills</a>
+          </div>
+        )}
       </nav>
 
       {/* Hero Section */}
@@ -265,6 +265,7 @@ function App() {
           <p className="text-gray-600 dark:text-gray-400">About this website: built with React(App Router & Server Actions), TypeScript, Tailwind CSS, React Email & Resend, Vercel hosting.</p>
         </div>
       </footer>
+    </div>
     </div>
   );
 }

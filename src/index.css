@@ -71,15 +71,33 @@
   @apply opacity-100;
 }
 
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .skill-tag {
   @apply relative overflow-hidden bg-white/5 backdrop-blur-sm border border-white/10;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Ajout du Slide-up Delay */
+  opacity: 0;
+  transform: translateY(10px);
+  animation: slideUp 0.5s ease-out forwards;
+  animation-delay: 0.3s; /* Délai avant l'apparition */
 }
 
 .skill-tag:hover {
   @apply border-blue-500/50 bg-white/10;
   transform: translateY(-2px);
 }
+
 @keyframes wave {
   0%, 100% { transform: rotate(0deg); }
   25% { transform: rotate(20deg); }
