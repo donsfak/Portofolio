@@ -28,7 +28,8 @@ function App() {
   const skills = [
     "Flutter", "SQL", "MySQL", "PostgreSQL",
   "Pandas", "Power BI", "Tableau", "Python",
-  "NumPy", "Matplotlib", "R", "Git", "React"
+  "NumPy", "Matplotlib", "R", "Git", "React","Typescript",
+  "Vite", "Tailwind CSS","Vercel","Supabase","Firebase",
   ];
 
   return (
@@ -53,14 +54,15 @@ function App() {
             </button>
           </div>
         </div>
-        {isMenuOpen && (
-          <div className="md:hidden bg-white dark:bg-black border-t border-gray-200 dark:border-white/10 p-4">
-            <a href="#about" className="block py-2">About</a>
-            <a href="#experience" className="block py-2">Experience</a>
-            <a href="#projects" className="block py-2">Projects</a>
-            <a href="#skills" className="block py-2">Skills</a>
-          </div>
-        )}
+        {/* Menu Mobile (affiché avec toggleMenu) */}
+          {isMenuOpen && (
+            <div className="md:hidden bg-white dark:bg-black border-t border-gray-200 dark:border-white/10 p-4">
+            <a href="#about" className="block py-2" onClick={toggleMenu}>About</a>
+            <a href="#experience" className="block py-2" onClick={toggleMenu}>Experience</a>
+            <a href="#projects" className="block py-2" onClick={toggleMenu}>Projects</a>
+            <a href="#skills" className="block py-2" onClick={toggleMenu}>Skills</a>
+            </div>
+          )}
       </nav>
 
       {/* Hero Section */}
@@ -262,7 +264,7 @@ function App() {
       <footer className="border-t border-gray-200 dark:border-white/10 py-12">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <p className="text-gray-600 dark:text-gray-400">© 2025 Soro Falibeta. All rights reserved.</p>
-          <p className="text-gray-600 dark:text-gray-400">About this website: built with React(App Router & Server Actions), TypeScript, Tailwind CSS, React Email & Resend, Vercel hosting.</p>
+          <p className="text-gray-600 dark:text-gray-400">About this website: built with React(App Router & Server Actions), TypeScript, Tailwind CSS, Vite, Vercel hosting.</p>
         </div>
       </footer>
     </div>
