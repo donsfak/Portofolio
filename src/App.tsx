@@ -26,10 +26,10 @@ function App() {
   };
 
   const skills = [
-    "Flutter", "SQL", "MySQL", "PostgreSQL",
-  "Pandas", "Power BI", "Tableau", "Python",
-  "NumPy", "Matplotlib", "R", "Git", "React","Typescript",
-  "Vite", "Tailwind CSS","Vercel","Supabase","Firebase",
+    "flutter", "sql", "mysql", "postgresql",
+    "pandas", "powerbi", "tableau", "python",
+    "numpy", "matplotlib", "r", "git", "react", "typescript",
+    "vite", "tailwind", "vercel", "supabase", "firebase","docker"
   ];
 
   return (
@@ -68,62 +68,52 @@ function App() {
 
       {/* Hero Section */}
       <header className="min-h-screen flex items-center justify-center pt-16">
-  <div className="max-w-4xl mx-auto px-4 text-center relative">
-    
-    {/* Image centrée au-dessus du titre avec emoji 👋 */}
-    <div className="absolute -top-16 left-1/2 transform -translate-x-1/2">
-      <div className="relative">
-        <img 
-          src="/assets/photo identite.jpg" 
-          alt="Photo de Soro Falibeta" 
-          className="w-32 h-32 rounded-full border-4 border-white shadow-lg"
-        />
-        {/* Emoji 👋 bien collé sur le bord du cercle */}
-        <div className="absolute right-0 bottom-0 translate-x-1/4 translate-y-1/4 text-3xl animate-waving-hand">
-          👋
+        <div className="max-w-4xl mx-auto px-4 text-center relative">
+          <div className="absolute -top-16 left-1/2 transform -translate-x-1/2">
+            <div className="relative">
+              <img 
+                src="/assets/photo identite.jpg" 
+                alt="Photo de Soro Falibeta" 
+                className="w-32 h-32 rounded-full border-4 border-white shadow-lg"
+              />
+              <div className="absolute right-0 bottom-0 translate-x-1/4 translate-y-1/4 text-3xl animate-waving-hand">
+                👋
+              </div>
+            </div>
+          </div>
+
+          <h1 className="text-8xl font-bold mt-20 mb-6 animate-slide-up relative" style={{ animationDelay: '0.2s' }}>
+            Soro <span className="gradient-text">Falibeta</span>
+          </h1>
+          <p className="text-3xl text-gray-600 dark:text-gray-400 mb-12 animate-slide-up" style={{ animationDelay: '0.4s' }}>
+            Data Scientist Junior
+          </p>
+
+          <div className="flex gap-6 justify-center mb-16 animate-slide-up" style={{ animationDelay: '0.6s' }}>
+            <a href="https://github.com/donsfak" 
+              target="_blank" 
+              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
+              <Github className="w-8 h-8" />
+            </a>
+            <a href="https://www.linkedin.com/in/falibeta-soro-8678b62a1/" 
+              target="_blank" 
+              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
+              <Linkedin className="w-8 h-8" />
+            </a>
+            <a href="mailto:falibetasoro@gmail.com" 
+              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
+              <Mail className="w-8 h-8" />
+            </a>
+          </div>
+
+          <a href="/assets/data analyste junior.pdf" download="data analyste junior.pdf" className="inline-block">
+            <button className="px-8 py-4 bg-blue-500 hover:bg-blue-600 rounded-full text-lg font-medium text-white transition-colors animate-slide-up" style={{ animationDelay: '0.8s' }}>
+              <Download className="w-5 h-5 inline-block mr-2" />
+              Download CV
+            </button>
+          </a>
         </div>
-      </div>
-    </div>
-
-    {/* Titre et description */}
-    <h1 className="text-8xl font-bold mt-20 mb-6 animate-slide-up relative" style={{ animationDelay: '0.2s' }}>
-      Soro <span className="gradient-text">Falibeta</span>
-    </h1>
-    <p className="text-3xl text-gray-600 dark:text-gray-400 mb-12 animate-slide-up" style={{ animationDelay: '0.4s' }}>
-      Data Scientist Junior
-    </p>
-
-    {/* Liens sociaux */}
-    <div className="flex gap-6 justify-center mb-16 animate-slide-up" style={{ animationDelay: '0.6s' }}>
-      <a href="https://github.com/donsfak" 
-        target="_blank" 
-        className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
-        <Github className="w-8 h-8" />
-      </a>
-      <a href="https://www.linkedin.com/in/falibeta-soro-8678b62a1/" 
-        target="_blank" 
-        className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
-        <Linkedin className="w-8 h-8" />
-      </a>
-      <a href="mailto:falibetasoro@gmail.com" 
-        className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
-        <Mail className="w-8 h-8" />
-      </a>
-    </div>
-
-    {/* Bouton Download CV */}
-    <a href="/assets/data analyste junior.pdf" download="data analyste junior.pdf" className="inline-block">
-      <button className="px-8 py-4 bg-blue-500 hover:bg-blue-600 rounded-full text-lg font-medium text-white transition-colors animate-slide-up" style={{ animationDelay: '0.8s' }}>
-        <Download className="w-5 h-5 inline-block mr-2" />
-        Download CV
-      </button>
-    </a>
-    
-  </div>
-</header>
-
-
-
+      </header>
 
       <main>
         {/* About Section */}
@@ -242,23 +232,79 @@ function App() {
         </section>
 
         {/* Skills Section */}
-        <section id="skills" className="section-container bg-gray-100 dark:bg-white/5">
-          <div className="flex items-center gap-4 mb-12">
-            <Cpu className="w-8 h-8 text-pink-500" />
-            <h2 className="text-4xl font-bold">Skills</h2>
+        {/* Skills Section */}
+<section id="skills" className="section-container bg-gray-100 dark:bg-white/5">
+  <div className="flex items-center gap-4 mb-12">
+    <Cpu className="w-8 h-8 text-pink-500" />
+    <h2 className="text-4xl font-bold">Skills</h2>
+  </div>
+  <div className="grid grid-cols-3 md:grid-cols-6 gap-6 px-4">
+    {skills.map((skill, index) => {
+      const customIcons = {
+        pandas: (
+          <svg viewBox="0 0 24 24" className="w-20 h-20">
+            <path fill="#150458" d="M10.112 18.002v-3.242c0-1.547 2.214-2.118 2.214-4.925 0-1.768-.738-3.141-2.25-3.872V3.75c3.094.5 4.125 3.969 4.125 6.414 0 3.221-2.19 4.461-2.19 7.838h-1.9zm-1.462 1.5v-3.242c0-1.547-2.214-2.118-2.214-4.925 0-1.768.739-3.141 2.25-3.872V3.75c-3.094.5-4.125 3.969-4.125 6.414 0 3.221 2.19 4.461 2.19 7.838h1.9z"/>
+            <path fill="#13013B" d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24zm0 1.5a10.5 10.5 0 1 1 0 21 10.5 10.5 0 0 1 0-21z"/>
+          </svg>
+        ),
+        numpy: (
+          <svg viewBox="0 0 24 24" className="w-20 h-20">
+            <path fill="#4D77CF" d="M10.315 2.82l-6.611 2.95v12.43l6.61 2.95 6.612-2.95V5.77l-6.611-2.95zm5.178 14.23l-5.178 2.31-5.178-2.31V6.95l5.178-2.31 5.178 2.31v10.1z"/>
+            <path fill="#4D77CF" d="M12.564 7.204h-1.128v9.593h1.128V7.204zM8.51 9.487l-.795-.795 2.69-2.69.795.795-2.69 2.69zm6.98 5.026l.795.795-2.69 2.69-.795-.795 2.69-2.69z"/>
+          </svg>
+        ),
+        sql: (
+          <svg viewBox="0 0 24 24" className="w-20 h-20">
+            <path fill="#E38E00" d="M12 5.5l-9 5v3l9 5 9-5v-3l-9-5z"/>
+            <path fill="#F29111" d="M12 15.5v3l-9-5v-3l9 5zM12 15.5l9-5v3l-9 5v-3z"/>
+            <path fill="#E38E00" d="M12 10.5l-9-5 9-5 9 5-9 5z"/>
+          </svg>
+        ),
+        powerbi: (
+          <svg viewBox="0 0 24 24" className="w-20 h-20">
+            <path fill="#F2C811" d="M12 3L2 7.5v9L12 21l10-4.5v-9L12 3zm8 12.27l-8 3.6-8-3.6V8.73l8-3.6 8 3.6v6.54z"/>
+            <path fill="#F2C811" d="M12 15.87l-8-3.6V8.73l8 3.6 8-3.6v3.54l-8 3.6z"/>
+          </svg>
+        ),
+        tableau: (
+          <svg viewBox="0 0 24 24" className="w-20 h-20">
+            <path fill="#0A234D" d="M12 3.75L3.75 7.5 12 11.25l8.25-3.75L12 3.75z"/>
+            <path fill="#0A234D" d="M12 11.25l8.25 3.75L12 18.75l-8.25-3.75 8.25-3.75z"/>
+            <path fill="#0A234D" d="M12 18.75l8.25-3.75V7.5L12 11.25v7.5z"/>
+          </svg>
+        ),
+        matplotlib: (
+          <svg viewBox="0 0 24 24" className="w-20 h-20">
+            <path fill="#115F9E" d="M12 3L3 7.5v9L12 21l9-4.5v-9L12 3zm7.5 12L12 18.75 4.5 15v-6L12 5.25 19.5 9v6z"/>
+            <path fill="#115F9E" d="M12 9.75L6 6.75v4.5l6 3 6-3v-4.5l-6 3z"/>
+          </svg>
+        )
+      };
+
+      const iconName = skill.toLowerCase().replace(/\s+/g, '');
+      
+      return (
+        <div 
+          key={`${skill}-${index}`}
+          className="skill-icon group relative flex flex-col items-center p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-blue-500/50 transition-all duration-300"
+        >
+          <div className="w-20 h-20 flex items-center justify-center">
+            {customIcons[skill as keyof typeof customIcons] || (
+              <img
+                src={`https://skillicons.dev/icons?i=${iconName}`}
+                alt={skill}
+                className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-2 grayscale contrast-75 group-hover:grayscale-0 group-hover:contrast-100"
+              />
+            )}
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {skills.map((skill, index) => (
-              <div 
-                key={`${skill}-${index}`}
-                className="skill-tag p-6 rounded-xl text-center"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <span className="text-lg font-medium">{skill}</span>
-              </div>
-            ))}
-          </div>
-        </section>
+          <span className="absolute bottom-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0 text-sm font-medium dark:text-white bg-white/80 dark:bg-black/80 px-3 py-1 rounded-full shadow-md">
+            {skill}
+          </span>
+        </div>
+      )
+    })}
+  </div>
+</section>
       </main>
 
       {/* Footer */}

@@ -8,14 +8,21 @@
   }
 }
 
+/* Gradient Text */
 .gradient-text {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-pink-500;
 }
 
+/* Animations de base */
 .animate-slide-up {
   animation: slideUp 0.8s ease forwards;
   opacity: 0;
   transform: translateY(20px);
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease forwards;
+  opacity: 0;
 }
 
 @keyframes slideUp {
@@ -25,21 +32,18 @@
   }
 }
 
-.animate-fade-in {
-  animation: fadeIn 1s ease forwards;
-  opacity: 0;
-}
-
 @keyframes fadeIn {
   to {
     opacity: 1;
   }
 }
 
+/* Sections */
 .section-container {
   @apply max-w-6xl mx-auto px-4 py-24;
 }
 
+/* Navigation */
 .nav-link {
   @apply relative text-lg font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors;
 }
@@ -53,6 +57,7 @@
   @apply w-full;
 }
 
+/* Project Cards */
 .project-card {
   @apply relative overflow-hidden rounded-2xl;
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -71,33 +76,64 @@
   @apply opacity-100;
 }
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Skills Section */
+.skill-icon {
+  @apply cursor-pointer transform hover:shadow-xl;
+  transition: 
+    all 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.2s ease;
 }
 
-.skill-tag {
-  @apply relative overflow-hidden bg-white/5 backdrop-blur-sm border border-white/10;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-  /* Ajout du Slide-up Delay */
-  opacity: 0;
-  transform: translateY(10px);
-  animation: slideUp 0.5s ease-out forwards;
-  animation-delay: 0.3s; /* Délai avant l'apparition */
+.skill-icon img {
+  transition: 
+    transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+    filter 0.3s ease,
+    grayscale 0.3s ease;
+  @apply filter grayscale contrast-75;
 }
 
-.skill-tag:hover {
-  @apply border-blue-500/50 bg-white/10;
-  transform: translateY(-2px);
+.skill-icon:hover img {
+  @apply grayscale-0 contrast-100 drop-shadow-lg;
+  animation: skill-float 1.5s ease-in-out infinite;
 }
 
+.skill-icon span {
+  transition: 
+    opacity 0.3s ease,
+    transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  @apply absolute bottom-2 opacity-0 translate-y-4;
+}
+
+.skill-icon:hover span {
+  @apply opacity-100 translate-y-0;
+}
+
+/* Custom Icons Styling */
+.skill-icon svg path {
+  @apply transition-all duration-300;
+}
+
+.skill-icon:hover svg path {
+  @apply dark:fill-[#2ecc71] fill-blue-500;
+  filter: drop-shadow(0 2px 4px rgba(46, 204, 113, 0.3));
+}
+
+/* Animation spécifique pour les SVG */
+@keyframes icon-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.skill-icon:hover svg {
+  animation: icon-pulse 1s ease-in-out infinite;
+}
+
+@keyframes skill-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* Waving Hand Animation */
 @keyframes wave {
   0%, 100% { transform: rotate(0deg); }
   25% { transform: rotate(20deg); }
@@ -106,6 +142,33 @@
 }
 
 .animate-waving-hand {
-  display: inline-block;
   animation: wave 1.5s infinite ease-in-out;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .project-card {
+    @apply w-full;
+  }
+  
+  .hero-title {
+    @apply text-6xl;
+  }
+  
+  .skill-icon {
+    @apply w-16 h-16;
+  }
+  
+  .skill-icon img {
+    @apply w-14 h-14;
+  }
+}
+
+/* Optimisations pour le dark mode */
+.dark .project-card::before {
+  @apply bg-gradient-to-t from-black/90 to-transparent;
+}
+
+.dark .skill-icon span {
+  @apply bg-black/80;
 }
