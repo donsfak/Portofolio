@@ -26,7 +26,7 @@ function App() {
   };
 
   const skills = [
-    "flutter", "sql", "mysql", "postgresql",
+    "flutter","mysql", "postgresql",
     "pandas", "powerbi", "tableau", "python",
     "numpy", "matplotlib", "r", "git", "react", "typescript",
     "vite", "tailwind", "vercel", "supabase", "firebase","docker"
@@ -69,18 +69,28 @@ function App() {
       {/* Hero Section */}
       <header className="min-h-screen flex items-center justify-center pt-16">
         <div className="max-w-4xl mx-auto px-4 text-center relative">
-          <div className="absolute -top-16 left-1/2 transform -translate-x-1/2">
-            <div className="relative">
-              <img 
-                src="/assets/photo identite.jpg" 
-                alt="Photo de Soro Falibeta" 
-                className="w-32 h-32 rounded-full border-4 border-white shadow-lg"
-              />
-              <div className="absolute right-0 bottom-0 translate-x-1/4 translate-y-1/4 text-3xl animate-waving-hand">
-                👋
-              </div>
-            </div>
+        <div className="absolute -top-16 left-1/2 transform -translate-x-1/2">
+      <div className="relative group">
+        {/* Gradient Border */}
+        <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full blur opacity-30 group-hover:opacity-50 transition-opacity duration-300 animate-spin-slow"></div>
+        
+        {/* Photo */}
+        <div className="relative rounded-full p-1 bg-white dark:bg-black ring-4 ring-white/50 dark:ring-black/50">
+          <img 
+            src="/assets/photo identite.jpg" 
+            alt="Photo de Soro Falibeta" 
+            className="w-32 h-32 rounded-full object-cover transform transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
+
+        {/* Waving Hand Emoji */}
+        <div className="absolute -right-4 -bottom-2 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg">
+          <div className="text-3xl animate-waving-hand">
+            👋
           </div>
+        </div>
+      </div>
+    </div>
 
           <h1 className="text-8xl font-bold mt-20 mb-6 animate-slide-up relative" style={{ animationDelay: '0.2s' }}>
             Soro <span className="gradient-text">Falibeta</span>
@@ -242,29 +252,23 @@ function App() {
     {skills.map((skill, index) => {
       const customIcons = {
         pandas: (
-          <svg viewBox="0 0 24 24" className="w-20 h-20">
-            <path fill="#150458" d="M10.112 18.002v-3.242c0-1.547 2.214-2.118 2.214-4.925 0-1.768-.738-3.141-2.25-3.872V3.75c3.094.5 4.125 3.969 4.125 6.414 0 3.221-2.19 4.461-2.19 7.838h-1.9zm-1.462 1.5v-3.242c0-1.547-2.214-2.118-2.214-4.925 0-1.768.739-3.141 2.25-3.872V3.75c-3.094.5-4.125 3.969-4.125 6.414 0 3.221 2.19 4.461 2.19 7.838h1.9z"/>
-            <path fill="#13013B" d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24zm0 1.5a10.5 10.5 0 1 1 0 21 10.5 10.5 0 0 1 0-21z"/>
-          </svg>
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <path fill="#13013B" d="M16.417 5.583v12.834H7.583V5.583h8.834zM12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0z"/>
+  <path fill="#150458" d="M10.112 18.002v-3.242c0-1.547 2.214-2.118 2.214-4.925 0-1.768-.738-3.141-2.25-3.872V3.75c3.094.5 4.125 3.969 4.125 6.414 0 3.221-2.19 4.461-2.19 7.838h-1.9zm-1.462 1.5v-3.242c0-1.547-2.214-2.118-2.214-4.925 0-1.768.739-3.141 2.25-3.872V3.75c-3.094.5-4.125 3.969-4.125 6.414 0 3.221 2.19 4.461 2.19 7.838h1.9z"/>
+</svg>
         ),
         numpy: (
-          <svg viewBox="0 0 24 24" className="w-20 h-20">
-            <path fill="#4D77CF" d="M10.315 2.82l-6.611 2.95v12.43l6.61 2.95 6.612-2.95V5.77l-6.611-2.95zm5.178 14.23l-5.178 2.31-5.178-2.31V6.95l5.178-2.31 5.178 2.31v10.1z"/>
-            <path fill="#4D77CF" d="M12.564 7.204h-1.128v9.593h1.128V7.204zM8.51 9.487l-.795-.795 2.69-2.69.795.795-2.69 2.69zm6.98 5.026l.795.795-2.69 2.69-.795-.795 2.69-2.69z"/>
-          </svg>
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <path fill="#4D77CF" d="M10.315 2.82l-6.611 2.95v12.43l6.61 2.95 6.612-2.95V5.77l-6.611-2.95zm5.178 14.23l-5.178 2.31-5.178-2.31V6.95l5.178-2.31 5.178 2.31v10.1z"/>
+  <path fill="#4D77CF" d="M12.564 7.204h-1.128v9.593h1.128V7.204zM8.51 9.487l-.795-.795 2.69-2.69.795.795-2.69 2.69zm6.98 5.026l.795.795-2.69 2.69-.795-.795 2.69-2.69z"/>
+</svg>
         ),
-        sql: (
-          <svg viewBox="0 0 24 24" className="w-20 h-20">
-            <path fill="#E38E00" d="M12 5.5l-9 5v3l9 5 9-5v-3l-9-5z"/>
-            <path fill="#F29111" d="M12 15.5v3l-9-5v-3l9 5zM12 15.5l9-5v3l-9 5v-3z"/>
-            <path fill="#E38E00" d="M12 10.5l-9-5 9-5 9 5-9 5z"/>
-          </svg>
-        ),
+        
         powerbi: (
-          <svg viewBox="0 0 24 24" className="w-20 h-20">
-            <path fill="#F2C811" d="M12 3L2 7.5v9L12 21l10-4.5v-9L12 3zm8 12.27l-8 3.6-8-3.6V8.73l8-3.6 8 3.6v6.54z"/>
-            <path fill="#F2C811" d="M12 15.87l-8-3.6V8.73l8 3.6 8-3.6v3.54l-8 3.6z"/>
-          </svg>
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <path fill="#F2C811" d="M12 3L2 7.5v9L12 21l10-4.5v-9L12 3zm8 12.27l-8 3.6-8-3.6V8.73l8-3.6 8 3.6v6.54z"/>
+  <path fill="#F2C811" d="M12 15.87l-8-3.6V8.73l8 3.6 8-3.6v3.54l-8 3.6z"/>
+</svg>
         ),
         tableau: (
           <svg viewBox="0 0 24 24" className="w-20 h-20">
@@ -274,10 +278,10 @@ function App() {
           </svg>
         ),
         matplotlib: (
-          <svg viewBox="0 0 24 24" className="w-20 h-20">
-            <path fill="#115F9E" d="M12 3L3 7.5v9L12 21l9-4.5v-9L12 3zm7.5 12L12 18.75 4.5 15v-6L12 5.25 19.5 9v6z"/>
-            <path fill="#115F9E" d="M12 9.75L6 6.75v4.5l6 3 6-3v-4.5l-6 3z"/>
-          </svg>
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <path fill="#115F9E" d="M12 3L3 7.5v9L12 21l9-4.5v-9L12 3zm7.5 12L12 18.75 4.5 15v-6L12 5.25 19.5 9v6z"/>
+  <path fill="#115F9E" d="M12 9.75L6 6.75v4.5l6 3 6-3v-4.5l-6 3z"/>
+</svg>
         )
       };
 
