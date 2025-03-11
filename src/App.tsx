@@ -350,10 +350,4 @@ function App() {
 
 export default App;
 
-function setVisible(arg0: boolean) {
-  throw new Error('Function not implemented.');
-}
-function setPrevScrollPos(currentScrollPos: number) {
-  throw new Error('Function not implemented.');
-}
 
