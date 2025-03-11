@@ -19,7 +19,23 @@ function App() {
     root.classList.remove('light', 'dark');
     root.classList.add(theme);
     localStorage.setItem('theme', theme);
+    
   }, [theme]);
+
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    // Gérer le scroll
+    const handleScroll = () => {
+      const currentScrollPos = window.scrollY;
+      setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
+      setPrevScrollPos(currentScrollPos);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [prevScrollPos]);
 
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
@@ -27,15 +43,18 @@ function App() {
 
   const skills = [
     "flutter","mysql", "postgresql",
-    "pandas", "powerbi", "tableau", "python",
-    "numpy", "matplotlib", "r", "git", "react", "typescript",
+     "python","r", "git", "react", "typescript",
     "vite", "tailwind", "vercel", "supabase", "firebase","docker"
   ];
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-black text-gray-900 dark:text-white">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-sm border-b border-gray-200 dark:border-white/10">
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-sm border-b border-gray-200 dark:border-white/10 transition-transform duration-300 ${
+          visible ? "translate-y-0" : "-translate-y-full"
+        }`}
+      >
         <div className="max-w-6xl mx-auto px-6 sm:px-4 py-4 flex justify-between items-center">
           <span className="text-2xl font-bold">SFAK</span>
           <div className="flex items-center gap-2 md:hidden">
@@ -185,14 +204,17 @@ function App() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="project-card group">
               <img 
-                src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=80" 
+                src="assets/todolist.webp" 
                 alt="Project 1" 
                 className="w-full aspect-video object-cover"
               />
               <div className="absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 transition-transform">
                 <h3 className="text-2xl font-semibold text-white mb-2">To Do app</h3>
                 <p className="text-gray-200 mb-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                  This project aims to master FLUTTER functionalities such as "flutter_river pod","flutter_provider".
+                  This project aims to master FLUTTER functionalities such as :
+                  For Frontend : Flutter (Riverpod, Provider), 
+                  For Backend : SQFLite,
+                  Synchronisation : SQLite. 
                 </p>
                 <div className="flex flex-wrap gap-2 mb-4">
                   {['Flutter', 'SQFLite'].map((tech) => (
@@ -213,24 +235,59 @@ function App() {
 
             <div className="project-card group">
               <img 
-                src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80" 
+                src="assets/uber.webp" 
                 alt="Project 2" 
                 className="w-full aspect-video object-cover"
               />
               <div className="absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 transition-transform">
-                <h3 className="text-2xl font-semibold text-white mb-2">Uber Clone V1</h3>
+                <h3 className="text-2xl font-semibold text-white mb-2">Uber Clone </h3>
                 <p className="text-gray-200 mb-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                  How to use various Google Maps APIs and Supabase features to create a fully functional Uber clone app on Flutter with a full backend.
+                  How to use various Google Maps APIs and Firebase features to create a fully functional Uber clone app on Flutter with a full backend.
+                  Frontend : Flutter (Riverpod) + Google Maps SDK,  
+                  Backend : Firebase,   
+                  API : Directions API (Google),  
+                  Base de données : Firestore (Firebase).  
                 </p>
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {['Flutter', 'Supabase'].map((tech) => (
+                  {['Flutter', 'Firebase','Google'].map((tech) => (
                     <span key={tech} className="px-3 py-1 rounded-full text-sm bg-white/20 text-white">
                       {tech}
                     </span>
                   ))}
                 </div>
                 <a 
-                  href="https://github.com/donsfak/maps_clone"
+                  href="https://github.com/donsfak/uber_clone"
+                  target="_blank"
+                  className="inline-flex items-center text-white hover:text-blue-300 transition-colors"
+                >
+                  View Project <ExternalLink className="w-4 h-4 ml-2" />
+                </a>
+              </div>
+            </div>
+
+            <div className="project-card group">
+              <img 
+                src="assets/uber.webp" 
+                alt="Project 3" 
+                className="w-full aspect-video object-cover"
+              />
+              <div className="absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 transition-transform">
+                <h3 className="text-2xl font-semibold text-white mb-2">Drivers_app</h3>
+                <p className="text-gray-200 mb-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                This is the second part of the uber_clone project, but this app is more for driver management.
+                  Frontend : Flutter (Riverpod) + Google Maps SDK,  
+                  Backend : Firebase,   
+                  API : Directions API (Google),  
+                  Base de données : Firestore (Firebase).                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {['Flutter', 'Firebase','Google'].map((tech) => (
+                    <span key={tech} className="px-3 py-1 rounded-full text-sm bg-white/20 text-white">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+                <a 
+                  href="https://github.com/donsfak/Drivers_app"
                   target="_blank"
                   className="inline-flex items-center text-white hover:text-blue-300 transition-colors"
                 >
@@ -243,71 +300,40 @@ function App() {
 
         {/* Skills Section */}
         {/* Skills Section */}
-<section id="skills" className="section-container bg-gray-100 dark:bg-white/5">
-  <div className="flex items-center gap-4 mb-12">
-    <Cpu className="w-8 h-8 text-pink-500" />
-    <h2 className="text-4xl font-bold">Skills</h2>
-  </div>
-  <div className="grid grid-cols-3 md:grid-cols-6 gap-6 px-4">
-    {skills.map((skill, index) => {
-      const customIcons = {
-        pandas: (
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-  <path fill="#13013B" d="M16.417 5.583v12.834H7.583V5.583h8.834zM12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0z"/>
-  <path fill="#150458" d="M10.112 18.002v-3.242c0-1.547 2.214-2.118 2.214-4.925 0-1.768-.738-3.141-2.25-3.872V3.75c3.094.5 4.125 3.969 4.125 6.414 0 3.221-2.19 4.461-2.19 7.838h-1.9zm-1.462 1.5v-3.242c0-1.547-2.214-2.118-2.214-4.925 0-1.768.739-3.141 2.25-3.872V3.75c-3.094.5-4.125 3.969-4.125 6.414 0 3.221 2.19 4.461 2.19 7.838h1.9z"/>
-</svg>
-        ),
-        numpy: (
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-  <path fill="#4D77CF" d="M10.315 2.82l-6.611 2.95v12.43l6.61 2.95 6.612-2.95V5.77l-6.611-2.95zm5.178 14.23l-5.178 2.31-5.178-2.31V6.95l5.178-2.31 5.178 2.31v10.1z"/>
-  <path fill="#4D77CF" d="M12.564 7.204h-1.128v9.593h1.128V7.204zM8.51 9.487l-.795-.795 2.69-2.69.795.795-2.69 2.69zm6.98 5.026l.795.795-2.69 2.69-.795-.795 2.69-2.69z"/>
-</svg>
-        ),
-        
-        powerbi: (
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-  <path fill="#F2C811" d="M12 3L2 7.5v9L12 21l10-4.5v-9L12 3zm8 12.27l-8 3.6-8-3.6V8.73l8-3.6 8 3.6v6.54z"/>
-  <path fill="#F2C811" d="M12 15.87l-8-3.6V8.73l8 3.6 8-3.6v3.54l-8 3.6z"/>
-</svg>
-        ),
-        tableau: (
-          <svg viewBox="0 0 24 24" className="w-20 h-20">
-            <path fill="#0A234D" d="M12 3.75L3.75 7.5 12 11.25l8.25-3.75L12 3.75z"/>
-            <path fill="#0A234D" d="M12 11.25l8.25 3.75L12 18.75l-8.25-3.75 8.25-3.75z"/>
-            <path fill="#0A234D" d="M12 18.75l8.25-3.75V7.5L12 11.25v7.5z"/>
-          </svg>
-        ),
-        matplotlib: (
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-  <path fill="#115F9E" d="M12 3L3 7.5v9L12 21l9-4.5v-9L12 3zm7.5 12L12 18.75 4.5 15v-6L12 5.25 19.5 9v6z"/>
-  <path fill="#115F9E" d="M12 9.75L6 6.75v4.5l6 3 6-3v-4.5l-6 3z"/>
-</svg>
-        )
-      };
+        <section id="skills" className="section-container bg-gray-100 dark:bg-white/5">
+    <div className="flex items-center gap-4 mb-12">
+        <Cpu className="w-8 h-8 text-pink-500" />
+        <h2 className="text-4xl font-bold">Skills</h2>
+    </div>
+    <div className="grid grid-cols-3 md:grid-cols-6 gap-6 px-4">
+        {skills.map((skill, index) => {
+            const customIcons: { [key: string]: JSX.Element } = {
+          
+            };
 
-      const iconName = skill.toLowerCase().replace(/\s+/g, '');
-      
-      return (
-        <div 
-          key={`${skill}-${index}`}
-          className="skill-icon group relative flex flex-col items-center p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-blue-500/50 transition-all duration-300"
-        >
-          <div className="w-20 h-20 flex items-center justify-center">
-            {customIcons[skill as keyof typeof customIcons] || (
-              <img
-                src={`https://skillicons.dev/icons?i=${iconName}`}
-                alt={skill}
-                className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-2 grayscale contrast-75 group-hover:grayscale-0 group-hover:contrast-100"
-              />
-            )}
-          </div>
-          <span className="absolute bottom-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0 text-sm font-medium dark:text-white bg-white/80 dark:bg-black/80 px-3 py-1 rounded-full shadow-md">
-            {skill}
-          </span>
-        </div>
-      )
-    })}
-  </div>
+            const iconName = skill.toLowerCase().replace(/\s+/g, '');
+
+            return (
+                <div
+                    key={`${skill}-${index}`}
+                    className="skill-icon group relative flex flex-col items-center p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-blue-500/50 transition-all duration-300"
+                >
+                    <div className="w-20 h-20 flex items-center justify-center">
+                        {customIcons[skill] || (
+                            <img
+                                src={`https://skillicons.dev/icons?i=${iconName}`}
+                                alt={skill}
+                                className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-2 grayscale contrast-75 group-hover:grayscale-0 group-hover:contrast-100"
+                            />
+                        )}
+                    </div>
+                    <span className="absolute bottom-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0 text-sm font-medium dark:text-white bg-white/80 dark:bg-black/80 px-3 py-1 rounded-full shadow-md">
+                        {skill}
+                    </span>
+                </div>
+            )
+        })}
+    </div>
 </section>
       </main>
 
@@ -323,3 +349,11 @@ function App() {
 }
 
 export default App;
+
+function setVisible(arg0: boolean) {
+  throw new Error('Function not implemented.');
+}
+function setPrevScrollPos(currentScrollPos: number) {
+  throw new Error('Function not implemented.');
+}
+
