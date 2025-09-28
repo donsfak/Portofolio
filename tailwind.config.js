@@ -5,7 +5,5 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: {
-    applyComplexClasses: true,
-  },
+  plugins: [],
 };
