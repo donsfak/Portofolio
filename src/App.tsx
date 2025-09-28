@@ -153,12 +153,8 @@ function App() {
           </div>
           <div className="max-w-3xl">
             <p className="text-xl text-gray-700 dark:text-gray-300 leading-relaxed">
-              Diplômé en informatique avec une spécialisation en développement d'application,
-              je suis passionné par l'analyse de données et déterminé à me lancer dans une carrière
-              de Data Analyste. Ma formation m'a doté de compétences solides en manipulation de
-              données, analyse statistique et visualisation. Motivé et apprenant rapide, je suis à la
-              recherche d'une première opportunité pour apporter une valeur ajoutée à une équipe
-              d'analystes de données.
+              Actuellement étudiant en Master Mobiquité, Big Data et Systèmes à l'ESATIC (en partenariat avec l'Université Côte d'Azur), je souhaite mettre à profit les compétences que j'ai développées lors de mon diplôme en informatique et consolidées durant un stage de six mois en analyse de données.
+               Fort de cette première expérience en manipulation de données, analyse statistique et visualisation, je suis déterminé à relever de nouveaux défis et à contribuer au succès d'une équipe data innovante.
             </p>
           </div>
         </section>
