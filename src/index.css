@@ -197,6 +197,50 @@
 }
 
 
+/* Marquee Animation */
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-scroll {
+  animation: scroll 40s linear infinite;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
+
+.animate-reverse {
+  animation-direction: reverse;
+}
+
+.marquee-mask {
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+/* Skill Item for Marquee */
+.skill-item-marquee {
+  @apply flex flex-col items-center justify-center p-4 min-w-[100px] mx-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm transition-all duration-300;
+}
+
+.skill-item-marquee:hover {
+  @apply bg-white/10 border-purple-500/30 transform -translate-y-1;
+}
+
+.skill-item-marquee img {
+  @apply w-12 h-12 mb-2 object-contain transition-transform duration-300;
+}
+
+.skill-item-marquee:hover img {
+  @apply scale-110;
+}
+
+.skill-item-marquee span {
+  @apply text-sm font-medium text-gray-600 dark:text-gray-300;
+}
+
 /* Clean Glass Skill Items */
 .skill-item {
   @apply relative flex flex-col items-center justify-center p-4 rounded-2xl glass transition-all duration-300;

@@ -1,15 +1,18 @@
 import { useState, useEffect, useRef } from 'react';
-import { Github, Linkedin, Mail, Download, ExternalLink, Code, Briefcase, User, Cpu, Moon, Sun, Menu, X, TrendingUp, Award, Users, Rocket, Database, BarChart3, Smartphone, Globe, Star, Send, MapPin, Phone, MessageSquare } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { Github, Linkedin, Mail, Download, ExternalLink, Code, Briefcase, User, Cpu, Moon, Sun, Menu, X, TrendingUp, Award, Users, Rocket, Database, BarChart3, Smartphone, Globe, MapPin, MessageSquare, Send, Phone } from 'lucide-react';
 
 function App() {
+  const { t, i18n } = useTranslation();
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('theme') || 'dark';
+      return localStorage.getItem('theme') || 'light';
     }
-    return 'dark';
+    return 'light';
   });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeFilter, setActiveFilter] = useState('All');
+  const [activeFilter, setActiveFilter] = useState('all');
+  const [hoveredSkillCard, setHoveredSkillCard] = useState<string | null>(null);
   const [stats, setStats] = useState({ experience: 0, projects: 0, technologies: 0, clients: 0 });
   const statsRef = useRef<HTMLDivElement>(null);
   const [hasAnimated, setHasAnimated] = useState(false);
@@ -87,6 +90,11 @@ function App() {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
+  const changeLanguage = () => {
+    const newLang = i18n.language === 'en' ? 'fr' : 'en';
+    i18n.changeLanguage(newLang);
+  };
+
   const skills = {
     frontend: ["react", "typescript", "tailwind", "vite"],
     backend: ["python", "firebase", "supabase", "mysql", "postgresql"],
@@ -102,7 +110,7 @@ function App() {
       description: "Comprehensive Flutter weather application with real-time forecasts, weather alerts, air quality index, UV index, minute-by-minute precipitation, and smart clothing recommendations. Features beautiful UI with dark mode support.",
       image: "assets/weather.webp",
       technologies: ["Flutter", "Firebase", "API", "ML"],
-      category: "Mobile",
+      category: "mobile",
       github: "https://github.com/donsfak/weather_insights",
       demo: null
     },
@@ -111,90 +119,50 @@ function App() {
       description: "Feature-rich task management application built with Flutter. Implements local data persistence with SQLite, state management with Riverpod, and a clean, intuitive user interface for efficient task tracking.",
       image: "assets/todolist.webp",
       technologies: ["Flutter", "SQLite", "Riverpod"],
-      category: "Mobile",
+      category: "mobile",
       github: "https://github.com/donsfak/Trackers_app",
       demo: null
     },
-    {
-      title: "Uber Clone",
-      description: "Full-featured ride-sharing application clone using Flutter and Google Maps SDK. Implements real-time location tracking, route optimization with Directions API, and Firebase backend for user authentication and data management.",
-      image: "assets/uber.webp",
-      technologies: ["Flutter", "Firebase", "Google Maps"],
-      category: "Mobile",
-      github: "https://github.com/donsfak/uber_clone",
-      demo: null
-    },
-    {
-      title: "Drivers App",
-      description: "Companion application for the Uber Clone project, specifically designed for driver management. Features real-time ride requests, navigation integration, earnings tracking, and driver analytics dashboard.",
-      image: "assets/uber.webp",
-      technologies: ["Flutter", "Firebase", "Google Maps"],
-      category: "Mobile",
-      github: "https://github.com/donsfak/Drivers_app",
-      demo: null
-    }
   ];
 
-  const filteredProjects = activeFilter === 'All' 
+  const filteredProjects = activeFilter === 'all' 
     ? projects 
     : projects.filter(p => p.category === activeFilter);
 
   const services = [
     {
       icon: <BarChart3 className="w-12 h-12" />,
-      title: "Data Analysis & Visualization",
-      description: "Transform raw data into actionable insights with advanced statistical analysis and compelling visualizations using Python, R, and modern BI tools."
+      title: t('services.dataAnalysis.title'),
+      description: t('services.dataAnalysis.description')
     },
     {
       icon: <Cpu className="w-12 h-12" />,
-      title: "Machine Learning Solutions",
-      description: "Develop and deploy intelligent ML models for prediction, classification, and pattern recognition to solve complex business problems."
+      title: t('services.ml.title'),
+      description: t('services.ml.description')
     },
     {
       icon: <Globe className="w-12 h-12" />,
-      title: "Web Development",
-      description: "Build modern, responsive web applications using React, TypeScript, and cutting-edge frameworks with focus on performance and user experience."
+      title: t('services.web.title'),
+      description: t('services.web.description')
     },
     {
       icon: <Smartphone className="w-12 h-12" />,
-      title: "Mobile Development",
-      description: "Create beautiful, cross-platform mobile applications with Flutter, delivering native performance and seamless user experiences."
+      title: t('services.mobile.title'),
+      description: t('services.mobile.description')
     },
     {
       icon: <Database className="w-12 h-12" />,
-      title: "Database Management",
-      description: "Design and optimize database architectures using SQL and NoSQL solutions, ensuring data integrity, security, and scalability."
+      title: t('services.db.title'),
+      description: t('services.db.description')
     },
     {
       icon: <TrendingUp className="w-12 h-12" />,
-      title: "Business Intelligence",
-      description: "Implement comprehensive BI solutions with interactive dashboards and automated reporting for data-driven decision making."
+      title: t('services.bi.title'),
+      description: t('services.bi.description')
     }
   ];
 
-  const testimonials = [
-    {
-      name: "Client Name",
-      position: "CEO, Tech Company",
-      image: "https://ui-avatars.com/api/?name=Client+Name&background=9333ea&color=fff",
-      text: "Outstanding work on our data analytics project. The insights provided helped us make critical business decisions.",
-      rating: 5
-    },
-    {
-      name: "Project Manager",
-      position: "Lead Developer",
-      image: "https://ui-avatars.com/api/?name=Project+Manager&background=ec4899&color=fff",
-      text: "Excellent technical skills and great communication. Delivered the mobile app ahead of schedule with exceptional quality.",
-      rating: 5
-    },
-    {
-      name: "Startup Founder",
-      position: "Founder & CTO",
-      image: "https://ui-avatars.com/api/?name=Startup+Founder&background=3b82f6&color=fff",
-      text: "Transformed our data infrastructure and built beautiful visualizations. Highly recommended for any data science project.",
-      rating: 5
-    }
-  ];
+
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-black text-gray-900 dark:text-white relative overflow-x-hidden">
@@ -222,12 +190,16 @@ function App() {
             </button>
           </div>
           <div className="hidden md:flex items-center gap-6">
-            <a href="#about" className="nav-link">About</a>
-            <a href="#experience" className="nav-link">Experience</a>
-            <a href="#projects" className="nav-link">Projects</a>
-            <a href="#skills" className="nav-link">Skills</a>
-            <a href="#services" className="nav-link">Services</a>
-            <a href="#contact" className="nav-link">Contact</a>
+            <a href="#about" className="nav-link">{t('nav.about')}</a>
+            <a href="#experience" className="nav-link">{t('nav.experience')}</a>
+            <a href="#projects" className="nav-link">{t('nav.projects')}</a>
+            <a href="#skills" className="nav-link">{t('nav.skills')}</a>
+            <a href="#services" className="nav-link">{t('nav.services')}</a>
+            <a href="#contact" className="nav-link">{t('nav.contact')}</a>
+            <button onClick={changeLanguage} className="p-2 rounded-full hover:bg-white/10 flex items-center gap-1" aria-label="Toggle language">
+              <Globe className="w-5 h-5" />
+              <span className="text-sm font-medium uppercase">{i18n.language === 'fr' ? 'FR' : 'EN'}</span>
+            </button>
             <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-white/10" aria-label="Toggle theme">
               {theme === "dark" ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5" />}
             </button>
@@ -235,12 +207,16 @@ function App() {
         </div>
         {isMenuOpen && (
           <div className="md:hidden glass border-t border-white/10 p-4">
-            <a href="#about" className="block py-2" onClick={toggleMenu}>About</a>
-            <a href="#experience" className="block py-2" onClick={toggleMenu}>Experience</a>
-            <a href="#projects" className="block py-2" onClick={toggleMenu}>Projects</a>
-            <a href="#skills" className="block py-2" onClick={toggleMenu}>Skills</a>
-            <a href="#services" className="block py-2" onClick={toggleMenu}>Services</a>
-            <a href="#contact" className="block py-2" onClick={toggleMenu}>Contact</a>
+            <a href="#about" className="block py-2" onClick={toggleMenu}>{t('nav.about')}</a>
+            <a href="#experience" className="block py-2" onClick={toggleMenu}>{t('nav.experience')}</a>
+            <a href="#projects" className="block py-2" onClick={toggleMenu}>{t('nav.projects')}</a>
+            <a href="#skills" className="block py-2" onClick={toggleMenu}>{t('nav.skills')}</a>
+            <a href="#services" className="block py-2" onClick={toggleMenu}>{t('nav.services')}</a>
+            <a href="#contact" className="block py-2" onClick={toggleMenu}>{t('nav.contact')}</a>
+            <button onClick={changeLanguage} className="block py-2 w-full text-left flex items-center gap-2">
+              <Globe className="w-5 h-5" />
+              <span>{i18n.language === 'fr' ? 'Français' : 'English'}</span>
+            </button>
           </div>
         )}
       </nav>
@@ -264,14 +240,14 @@ function App() {
             </div>
           </div>
 
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold mt-24 mb-6 animate-slide-up" style={{ animationDelay: '0.2s' }}>
+          <h1 className="text-7xl md:text-9xl font-bold mt-24 mb-6 animate-slide-up tracking-tight" style={{ animationDelay: '0.2s' }}>
             Soro <span className="gradient-text">Falibeta</span>
           </h1>
           <p className="text-2xl md:text-4xl text-gray-600 dark:text-gray-400 mb-4 animate-slide-up" style={{ animationDelay: '0.4s' }}>
-            Data Scientist Junior
+            {t('hero.role')}
           </p>
           <p className="text-lg md:text-xl text-gray-500 dark:text-gray-500 mb-12 max-w-2xl mx-auto animate-slide-up" style={{ animationDelay: '0.5s' }}>
-            Transforming data into insights | Building intelligent solutions
+            {t('hero.tagline')}
           </p>
 
           <div className="flex gap-6 justify-center mb-12 animate-slide-up" style={{ animationDelay: '0.6s' }}>
@@ -295,13 +271,13 @@ function App() {
             <a href="/assets/data analyste junior.pdf" download="data analyste junior.pdf">
               <button className="btn-primary">
                 <Download className="w-5 h-5 inline-block mr-2" />
-                Download CV
+                {t('hero.downloadCv')}
               </button>
             </a>
             <a href="#contact">
               <button className="btn-secondary">
                 <MessageSquare className="w-5 h-5 inline-block mr-2" />
-                Get In Touch
+                {t('hero.getInTouch')}
               </button>
             </a>
           </div>
@@ -315,22 +291,22 @@ function App() {
             <div className="stat-card">
               <TrendingUp className="w-12 h-12 mx-auto mb-4 text-purple-600" />
               <div className="stat-number">{stats.experience}+</div>
-              <div className="stat-label">Years Experience</div>
+              <div className="stat-label">{t('stats.experience')}</div>
             </div>
             <div className="stat-card">
               <Rocket className="w-12 h-12 mx-auto mb-4 text-pink-500" />
               <div className="stat-number">{stats.projects}+</div>
-              <div className="stat-label">Projects Completed</div>
+              <div className="stat-label">{t('stats.projects')}</div>
             </div>
             <div className="stat-card">
               <Code className="w-12 h-12 mx-auto mb-4 text-blue-500" />
               <div className="stat-number">{stats.technologies}+</div>
-              <div className="stat-label">Technologies</div>
+              <div className="stat-label">{t('stats.technologies')}</div>
             </div>
             <div className="stat-card">
               <Users className="w-12 h-12 mx-auto mb-4 text-purple-600" />
               <div className="stat-number">{stats.clients}+</div>
-              <div className="stat-label">Happy Clients</div>
+              <div className="stat-label">{t('stats.clients')}</div>
             </div>
           </div>
         </section>
@@ -339,36 +315,36 @@ function App() {
         <section id="about" className="section-container bg-white/5">
           <div className="flex items-center gap-4 mb-12">
             <User className="w-8 h-8 text-purple-600" />
-            <h2 className="text-4xl md:text-5xl font-bold">About Me</h2>
+            <h2 className="text-4xl md:text-5xl font-bold">{t('about.title')}</h2>
           </div>
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
-                Actuellement étudiant en Master Mobiquité, Big Data et Systèmes à l'ESATIC (en partenariat avec l'Université Côte d'Azur), je souhaite mettre à profit les compétences que j'ai développées lors de mon diplôme en informatique et consolidées durant un stage de six mois en analyse de données.
+                {t('about.description1')}
               </p>
               <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed">
-                Fort de cette première expérience en manipulation de données, analyse statistique et visualisation, je suis déterminé à relever de nouveaux défis et à contribuer au succès d'une équipe data innovante.
+                {t('about.description2')}
               </p>
             </div>
             <div className="space-y-4">
               <div className="glass-card flex items-start gap-4">
                 <Award className="w-8 h-8 text-purple-600 flex-shrink-0 mt-1" />
                 <div>
-                  <h3 className="font-semibold text-lg mb-1">Education</h3>
+                  <h3 className="font-semibold text-lg mb-1">{t('about.education')}</h3>
                   <p className="text-gray-600 dark:text-gray-400">Master Mobiquité, Big Data et Systèmes - ESATIC</p>
                 </div>
               </div>
               <div className="glass-card flex items-start gap-4">
                 <Briefcase className="w-8 h-8 text-pink-500 flex-shrink-0 mt-1" />
                 <div>
-                  <h3 className="font-semibold text-lg mb-1">Current Role</h3>
+                  <h3 className="font-semibold text-lg mb-1">{t('about.currentRole')}</h3>
                   <p className="text-gray-600 dark:text-gray-400">GNOC IN VAS Engineer at Huawei</p>
                 </div>
               </div>
               <div className="glass-card flex items-start gap-4">
                 <MapPin className="w-8 h-8 text-blue-500 flex-shrink-0 mt-1" />
                 <div>
-                  <h3 className="font-semibold text-lg mb-1">Location</h3>
+                  <h3 className="font-semibold text-lg mb-1">{t('about.location')}</h3>
                   <p className="text-gray-600 dark:text-gray-400">Côte d'Ivoire</p>
                 </div>
               </div>
@@ -380,7 +356,7 @@ function App() {
         <section id="experience" className="section-container">
           <div className="flex items-center gap-4 mb-12">
             <Briefcase className="w-8 h-8 text-pink-500" />
-            <h2 className="text-4xl md:text-5xl font-bold">Experience</h2>
+            <h2 className="text-4xl md:text-5xl font-bold">{t('experience.title')}</h2>
           </div>
           <div className="space-y-12">
             <div className="relative pl-8 border-l-2 border-purple-600">
@@ -411,18 +387,18 @@ function App() {
         <section id="projects" className="section-container bg-white/5">
           <div className="flex items-center gap-4 mb-12">
             <Code className="w-8 h-8 text-purple-600" />
-            <h2 className="text-4xl md:text-5xl font-bold">Projects</h2>
+            <h2 className="text-4xl md:text-5xl font-bold">{t('projects.title')}</h2>
           </div>
           
           {/* Filter Buttons */}
           <div className="flex flex-wrap gap-3 mb-12 justify-center">
-            {['All', 'Mobile', 'Web', 'Data Science'].map((filter) => (
+            {['all', 'mobile', 'web', 'dataScience'].map((filter) => (
               <button
                 key={filter}
                 onClick={() => setActiveFilter(filter)}
                 className={`filter-btn ${activeFilter === filter ? 'filter-btn-active' : 'filter-btn-inactive'}`}
               >
-                {filter}
+                {t(`projects.filters.${filter}`)}
               </button>
             ))}
           </div>
@@ -454,7 +430,7 @@ function App() {
                       className="inline-flex items-center text-white hover:text-purple-300 transition-colors"
                     >
                       <Github className="w-5 h-5 mr-2" />
-                      View Code
+                      {t('projects.viewCode')}
                     </a>
                     {project.demo && (
                       <a 
@@ -463,7 +439,7 @@ function App() {
                         className="inline-flex items-center text-white hover:text-purple-300 transition-colors"
                       >
                         <ExternalLink className="w-5 h-5 mr-2" />
-                        Live Demo
+                        {t('projects.liveDemo')}
                       </a>
                     )}
                   </div>
@@ -477,100 +453,135 @@ function App() {
         <section id="skills" className="section-container">
           <div className="flex items-center gap-4 mb-12">
             <Cpu className="w-8 h-8 text-pink-500" />
-            <h2 className="text-4xl md:text-5xl font-bold">Skills & Technologies</h2>
+            <h2 className="text-4xl md:text-5xl font-bold">{t('skills.title')}</h2>
           </div>
           
-          <div className="space-y-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Frontend */}
-            <div className="skill-category">
-              <h3 className="skill-category-title">Frontend Development</h3>
-              <div className="grid grid-cols-3 md:grid-cols-6 gap-6">
+            <div 
+              className={`relative bg-white dark:bg-white/5 rounded-2xl p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 ${
+                hoveredSkillCard === 'frontend' 
+                  ? 'border-2 border-cyan-400' 
+                  : 'border border-gray-100 dark:border-white/10 hover:border-purple-500/30'
+              }`}
+              style={hoveredSkillCard === 'frontend' ? { boxShadow: '0 0 20px rgba(34, 211, 238, 0.4)' } : {}}
+              onMouseEnter={() => setHoveredSkillCard('frontend')}
+              onMouseLeave={() => setHoveredSkillCard(null)}
+            >
+              <h3 className="text-xl font-bold mb-6 text-center">{t('skills.frontend')}</h3>
+              <div className="space-y-4">
                 {skills.frontend.map((skill, index) => (
-                  <div
-                    key={`frontend-${skill}-${index}`}
-                    className="skill-item group"
-                  >
+                  <div key={index} className="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                     <img
                       src={`https://skillicons.dev/icons?i=${skill.toLowerCase().replace(/\s+/g, '')}`}
                       alt={skill}
+                      className="w-8 h-8"
                     />
-                    <span>{skill}</span>
+                    <span className="font-medium capitalize">{skill}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Backend & Databases */}
-            <div className="skill-category">
-              <h3 className="skill-category-title">Backend & Databases</h3>
-              <div className="grid grid-cols-3 md:grid-cols-6 gap-6">
+            {/* Backend */}
+            <div 
+              className={`relative bg-white dark:bg-white/5 rounded-2xl p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 ${
+                hoveredSkillCard === 'backend' 
+                  ? 'border-2 border-cyan-400' 
+                  : 'border border-gray-100 dark:border-white/10 hover:border-purple-500/30'
+              }`}
+              style={hoveredSkillCard === 'backend' ? { boxShadow: '0 0 20px rgba(34, 211, 238, 0.4)' } : {}}
+              onMouseEnter={() => setHoveredSkillCard('backend')}
+              onMouseLeave={() => setHoveredSkillCard(null)}
+            >
+              <h3 className="text-xl font-bold mb-6 text-center">{t('skills.backend')}</h3>
+              <div className="space-y-4">
                 {skills.backend.map((skill, index) => (
-                  <div
-                    key={`backend-${skill}-${index}`}
-                    className="skill-item group"
-                  >
+                  <div key={index} className="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                     <img
                       src={`https://skillicons.dev/icons?i=${skill.toLowerCase().replace(/\s+/g, '')}`}
                       alt={skill}
+                      className="w-8 h-8"
                     />
-                    <span>{skill}</span>
+                    <span className="font-medium capitalize">{skill}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Mobile Development */}
-            <div className="skill-category">
-              <h3 className="skill-category-title">Mobile Development</h3>
-              <div className="grid grid-cols-3 md:grid-cols-6 gap-6">
+            {/* Mobile */}
+            <div 
+              className={`relative bg-white dark:bg-white/5 rounded-2xl p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 ${
+                hoveredSkillCard === 'mobile' 
+                  ? 'border-2 border-cyan-400' 
+                  : 'border border-gray-100 dark:border-white/10 hover:border-purple-500/30'
+              }`}
+              style={hoveredSkillCard === 'mobile' ? { boxShadow: '0 0 20px rgba(34, 211, 238, 0.4)' } : {}}
+              onMouseEnter={() => setHoveredSkillCard('mobile')}
+              onMouseLeave={() => setHoveredSkillCard(null)}
+            >
+              <h3 className="text-xl font-bold mb-6 text-center">{t('skills.mobile')}</h3>
+              <div className="space-y-4">
                 {skills.mobile.map((skill, index) => (
-                  <div
-                    key={`mobile-${skill}-${index}`}
-                    className="skill-item group"
-                  >
+                  <div key={index} className="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                     <img
                       src={`https://skillicons.dev/icons?i=${skill.toLowerCase().replace(/\s+/g, '')}`}
                       alt={skill}
+                      className="w-8 h-8"
                     />
-                    <span>{skill}</span>
+                    <span className="font-medium capitalize">{skill}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Data Science */}
-            <div className="skill-category">
-              <h3 className="skill-category-title">Data Science & Analytics</h3>
-              <div className="grid grid-cols-3 md:grid-cols-6 gap-6">
+            <div 
+              className={`relative bg-white dark:bg-white/5 rounded-2xl p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 ${
+                hoveredSkillCard === 'dataScience' 
+                  ? 'border-2 border-cyan-400' 
+                  : 'border border-gray-100 dark:border-white/10 hover:border-purple-500/30'
+              }`}
+              style={hoveredSkillCard === 'dataScience' ? { boxShadow: '0 0 20px rgba(34, 211, 238, 0.4)' } : {}}
+              onMouseEnter={() => setHoveredSkillCard('dataScience')}
+              onMouseLeave={() => setHoveredSkillCard(null)}
+            >
+              <h3 className="text-xl font-bold mb-6 text-center">{t('skills.dataScience')}</h3>
+              <div className="space-y-4">
                 {skills.dataScience.map((skill, index) => (
-                  <div
-                    key={`ds-${skill}-${index}`}
-                    className="skill-item group"
-                  >
+                  <div key={index} className="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                     <img
                       src={`https://skillicons.dev/icons?i=${skill.toLowerCase().replace(/\s+/g, '')}`}
                       alt={skill}
+                      className="w-8 h-8"
                     />
-                    <span>{skill}</span>
+                    <span className="font-medium capitalize">{skill}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Tools */}
-            <div className="skill-category">
-              <h3 className="skill-category-title">Tools & Platforms</h3>
-              <div className="grid grid-cols-3 md:grid-cols-6 gap-6">
+            <div 
+              className={`relative bg-white dark:bg-white/5 rounded-2xl p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 ${
+                hoveredSkillCard === 'tools' 
+                  ? 'border-2 border-cyan-400' 
+                  : 'border border-gray-100 dark:border-white/10 hover:border-purple-500/30'
+              }`}
+              style={hoveredSkillCard === 'tools' ? { boxShadow: '0 0 20px rgba(34, 211, 238, 0.4)' } : {}}
+              onMouseEnter={() => setHoveredSkillCard('tools')}
+              onMouseLeave={() => setHoveredSkillCard(null)}
+            >
+              <h3 className="text-xl font-bold mb-6 text-center">{t('skills.tools')}</h3>
+              <div className="space-y-4">
                 {skills.tools.map((skill, index) => (
-                  <div
-                    key={`tools-${skill}-${index}`}
-                    className="skill-item group"
-                  >
+                  <div key={index} className="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                     <img
                       src={`https://skillicons.dev/icons?i=${skill.toLowerCase().replace(/\s+/g, '')}`}
                       alt={skill}
+                      className="w-8 h-8"
                     />
-                    <span>{skill}</span>
+                    <span className="font-medium capitalize">{skill}</span>
                   </div>
                 ))}
               </div>
@@ -582,7 +593,7 @@ function App() {
         <section id="services" className="section-container bg-white/5">
           <div className="flex items-center gap-4 mb-12">
             <Rocket className="w-8 h-8 text-purple-600" />
-            <h2 className="text-4xl md:text-5xl font-bold">What I Do</h2>
+            <h2 className="text-4xl md:text-5xl font-bold">{t('services.title')}</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, index) => (
@@ -598,6 +609,7 @@ function App() {
         </section>
 
         {/* Testimonials Section */}
+        {/* Testimonials Section
         <section className="section-container">
           <div className="flex items-center gap-4 mb-12">
             <Star className="w-8 h-8 text-pink-500" />
@@ -623,18 +635,19 @@ function App() {
             ))}
           </div>
         </section>
+        */}
 
         {/* Contact Section */}
         <section id="contact" className="section-container bg-white/5">
           <div className="flex items-center gap-4 mb-12">
             <Send className="w-8 h-8 text-purple-600" />
-            <h2 className="text-4xl md:text-5xl font-bold">Get In Touch</h2>
+            <h2 className="text-4xl md:text-5xl font-bold">{t('contact.title')}</h2>
           </div>
           <div className="grid md:grid-cols-2 gap-12">
             <div>
-              <h3 className="text-2xl font-semibold mb-6">Let's work together!</h3>
+              <h3 className="text-2xl font-semibold mb-6">{t('contact.subtitle')}</h3>
               <p className="text-gray-600 dark:text-gray-400 mb-8">
-                I'm always interested in hearing about new projects and opportunities. Whether you have a question or just want to say hi, feel free to reach out!
+                {t('contact.description')}
               </p>
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
@@ -645,11 +658,11 @@ function App() {
                 </div>
                 <div className="flex items-center gap-4">
                   <Phone className="w-6 h-6 text-purple-600" />
-                  <span>Available for contact</span>
+                  <span>{t('contact.available')}</span>
                 </div>
                 <div className="flex items-center gap-4">
                   <MapPin className="w-6 h-6 text-purple-600" />
-                  <span>Côte d'Ivoire</span>
+                  <span>{t('about.location')}</span>
                 </div>
               </div>
             </div>
@@ -661,24 +674,24 @@ function App() {
               alert('Thank you for your message! This is a demo form, but I will receive your message if you email me directly at falibetasoro@gmail.com'); 
             }}>
               <div>
-                <label className="form-label">Name</label>
-                <input type="text" className="form-input" placeholder="Your name" required />
+                <label className="form-label">{t('contact.form.name')}</label>
+                <input type="text" className="form-input" placeholder={t('contact.form.name')} required />
               </div>
               <div>
-                <label className="form-label">Email</label>
+                <label className="form-label">{t('contact.form.email')}</label>
                 <input type="email" className="form-input" placeholder="your.email@example.com" required />
               </div>
               <div>
-                <label className="form-label">Subject</label>
-                <input type="text" className="form-input" placeholder="What's this about?" required />
+                <label className="form-label">{t('contact.form.subject')}</label>
+                <input type="text" className="form-input" placeholder={t('contact.form.subject')} required />
               </div>
               <div>
-                <label className="form-label">Message</label>
-                <textarea className="form-textarea" rows={5} placeholder="Your message..." required></textarea>
+                <label className="form-label">{t('contact.form.message')}</label>
+                <textarea className="form-textarea" rows={5} placeholder={t('contact.form.message')} required></textarea>
               </div>
               <button type="submit" className="btn-primary w-full">
                 <Send className="w-5 h-5 inline-block mr-2" />
-                Send Message
+                {t('contact.form.send')}
               </button>
             </form>
           </div>
@@ -687,43 +700,31 @@ function App() {
 
       {/* Footer */}
       <footer className="border-t border-white/10 py-12 bg-white/5">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
-            <div>
-              <h3 className="text-2xl font-bold gradient-text mb-4">SFAK</h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Data Scientist & Full Stack Developer passionate about transforming data into actionable insights.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Quick Links</h4>
-              <div className="space-y-2">
-                <a href="#about" className="block text-gray-600 dark:text-gray-400 hover:text-purple-600 transition-colors">About</a>
-                <a href="#projects" className="block text-gray-600 dark:text-gray-400 hover:text-purple-600 transition-colors">Projects</a>
-                <a href="#skills" className="block text-gray-600 dark:text-gray-400 hover:text-purple-600 transition-colors">Skills</a>
-                <a href="#contact" className="block text-gray-600 dark:text-gray-400 hover:text-purple-600 transition-colors">Contact</a>
-              </div>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Connect</h4>
-              <div className="flex gap-4">
-                <a href="https://github.com/donsfak" target="_blank" className="text-gray-600 dark:text-gray-400 hover:text-purple-600 transition-colors">
-                  <Github className="w-6 h-6" />
-                </a>
-                <a href="https://www.linkedin.com/in/falibeta-soro-8678b62a1/" target="_blank" className="text-gray-600 dark:text-gray-400 hover:text-purple-600 transition-colors">
-                  <Linkedin className="w-6 h-6" />
-                </a>
-                <a href="mailto:falibetasoro@gmail.com" className="text-gray-600 dark:text-gray-400 hover:text-purple-600 transition-colors">
-                  <Mail className="w-6 h-6" />
-                </a>
-              </div>
-            </div>
+        <div className="max-w-7xl mx-auto px-4 flex flex-col items-center justify-center text-center">
+          <h3 className="text-3xl font-bold gradient-text mb-6">SFAK</h3>
+          
+          <div className="flex gap-8 mb-8">
+            <a href="https://github.com/donsfak" target="_blank" className="text-gray-600 dark:text-gray-400 hover:text-purple-600 transition-colors transform hover:scale-110">
+              <Github className="w-8 h-8" />
+            </a>
+            <a href="https://www.linkedin.com/in/falibeta-soro-8678b62a1/" target="_blank" className="text-gray-600 dark:text-gray-400 hover:text-purple-600 transition-colors transform hover:scale-110">
+              <Linkedin className="w-8 h-8" />
+            </a>
+            <a href="mailto:falibetasoro@gmail.com" className="text-gray-600 dark:text-gray-400 hover:text-purple-600 transition-colors transform hover:scale-110">
+              <Mail className="w-8 h-8" />
+            </a>
           </div>
-          <div className="text-center pt-8 border-t border-white/10">
-            <p className="text-gray-600 dark:text-gray-400">© {new Date().getFullYear()} Soro Falibeta. All rights reserved.</p>
-            <p className="text-gray-600 dark:text-gray-400 text-sm mt-2">
-              Built with React, TypeScript, Tailwind CSS, and Vite
-            </p>
+
+          <p className="text-gray-600 dark:text-gray-400 max-w-md mb-8">
+            {t('footer.description')}
+          </p>
+
+          <div className="text-sm text-gray-500 dark:text-gray-500 mb-4">
+            <p>© {new Date().getFullYear()} Soro Falibeta. {t('footer.rights')}</p>
+          </div>
+
+          <div className="text-xs text-gray-400 dark:text-gray-500">
+            <p>Built with React, TypeScript, Tailwind CSS, <span className="text-purple-500">Framer Motion</span>, <span className="text-cyan-500">React Email & Resend</span></p>
           </div>
         </div>
       </footer>

@@ -1,0 +1,98 @@
+{
+  "nav": {
+    "about": "About",
+    "experience": "Experience",
+    "projects": "Projects",
+    "skills": "Skills",
+    "services": "Services",
+    "contact": "Contact"
+  },
+  "hero": {
+    "role": "Data Scientist Junior",
+    "tagline": "Transforming data into insights | Building intelligent solutions",
+    "downloadCv": "Download CV",
+    "getInTouch": "Get In Touch"
+  },
+  "stats": {
+    "experience": "Years Experience",
+    "projects": "Projects Completed",
+    "technologies": "Technologies",
+    "clients": "Happy Clients"
+  },
+  "about": {
+    "title": "About Me",
+    "description1": "Currently studying for a Master's in Mobiquity, Big Data and Systems at ESATIC (in partnership with Côte d'Azur University), I wish to put to good use the skills I developed during my computer science degree and consolidated during a six-month internship in data analysis.",
+    "description2": "With this first experience in data manipulation, statistical analysis and visualization, I am determined to take on new challenges and contribute to the success of an innovative data team.",
+    "education": "Education",
+    "currentRole": "Current Role",
+    "location": "Location"
+  },
+  "experience": {
+    "title": "Experience"
+  },
+  "projects": {
+    "title": "Projects",
+    "viewCode": "View Code",
+    "liveDemo": "Live Demo",
+    "filters": {
+      "all": "All",
+      "mobile": "Mobile",
+      "web": "Web",
+      "dataScience": "Data Science"
+    }
+  },
+  "skills": {
+    "title": "Skills & Technologies",
+    "frontend": "Frontend Development",
+    "backend": "Backend & Databases",
+    "mobile": "Mobile Development",
+    "dataScience": "Data Science & Analytics",
+    "tools": "Tools & Platforms"
+  },
+  "services": {
+    "title": "What I Do",
+    "dataAnalysis": {
+      "title": "Data Analysis & Visualization",
+      "description": "Transform raw data into actionable insights with advanced statistical analysis and compelling visualizations using Python, R, and modern BI tools."
+    },
+    "ml": {
+      "title": "Machine Learning Solutions",
+      "description": "Develop and deploy intelligent ML models for prediction, classification, and pattern recognition to solve complex business problems."
+    },
+    "web": {
+      "title": "Web Development",
+      "description": "Build modern, responsive web applications using React, TypeScript, and cutting-edge frameworks with focus on performance and user experience."
+    },
+    "mobile": {
+      "title": "Mobile Development",
+      "description": "Create beautiful, cross-platform mobile applications with Flutter, delivering native performance and seamless user experiences."
+    },
+    "db": {
+      "title": "Database Management",
+      "description": "Design and optimize database architectures using SQL and NoSQL solutions, ensuring data integrity, security, and scalability."
+    },
+    "bi": {
+      "title": "Business Intelligence",
+      "description": "Implement comprehensive BI solutions with interactive dashboards and automated reporting for data-driven decision making."
+    }
+  },
+  "contact": {
+    "title": "Get In Touch",
+    "subtitle": "Let's work together!",
+    "description": "I'm always interested in hearing about new projects and opportunities. Whether you have a question or just want to say hi, feel free to reach out!",
+    "available": "Available for contact",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message",
+      "send": "Send Message"
+    }
+  },
+  "footer": {
+    "description": "Data Scientist & Full Stack Developer passionate about transforming data into actionable insights.",
+    "quickLinks": "Quick Links",
+    "connect": "Connect",
+    "rights": "All rights reserved."
+  }
+}

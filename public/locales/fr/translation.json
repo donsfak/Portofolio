@@ -1,0 +1,98 @@
+{
+  "nav": {
+    "about": "À propos",
+    "experience": "Expérience",
+    "projects": "Projets",
+    "skills": "Compétences",
+    "services": "Services",
+    "contact": "Contact"
+  },
+  "hero": {
+    "role": "Data Scientist Junior",
+    "tagline": "Transformer les données en insights | Créer des solutions intelligentes",
+    "downloadCv": "Télécharger CV",
+    "getInTouch": "Me Contacter"
+  },
+  "stats": {
+    "experience": "Années d'Expérience",
+    "projects": "Projets Réalisés",
+    "technologies": "Technologies",
+    "clients": "Clients Satisfaits"
+  },
+  "about": {
+    "title": "À Propos de Moi",
+    "description1": "Actuellement étudiant en Master Mobiquité, Big Data et Systèmes à l'ESATIC (en partenariat avec l'Université Côte d'Azur), je souhaite mettre à profit les compétences que j'ai développées lors de mon diplôme en informatique et consolidées durant un stage de six mois en analyse de données.",
+    "description2": "Fort de cette première expérience en manipulation de données, analyse statistique et visualisation, je suis déterminé à relever de nouveaux défis et à contribuer au succès d'une équipe data innovante.",
+    "education": "Éducation",
+    "currentRole": "Poste Actuel",
+    "location": "Localisation"
+  },
+  "experience": {
+    "title": "Expérience"
+  },
+  "projects": {
+    "title": "Projets",
+    "viewCode": "Voir le Code",
+    "liveDemo": "Démo Live",
+    "filters": {
+      "all": "Tout",
+      "mobile": "Mobile",
+      "web": "Web",
+      "dataScience": "Data Science"
+    }
+  },
+  "skills": {
+    "title": "Compétences & Technologies",
+    "frontend": "Développement Frontend",
+    "backend": "Backend & Bases de Données",
+    "mobile": "Développement Mobile",
+    "dataScience": "Data Science & Analytique",
+    "tools": "Outils & Plateformes"
+  },
+  "services": {
+    "title": "Ce que je fais",
+    "dataAnalysis": {
+      "title": "Analyse de Données & Visualisation",
+      "description": "Transformer les données brutes en insights exploitables avec une analyse statistique avancée et des visualisations convaincantes utilisant Python, R et les outils BI modernes."
+    },
+    "ml": {
+      "title": "Solutions Machine Learning",
+      "description": "Développer et déployer des modèles ML intelligents pour la prédiction, la classification et la reconnaissance de formes pour résoudre des problèmes commerciaux complexes."
+    },
+    "web": {
+      "title": "Développement Web",
+      "description": "Construire des applications web modernes et réactives utilisant React, TypeScript et des frameworks de pointe en mettant l'accent sur la performance et l'expérience utilisateur."
+    },
+    "mobile": {
+      "title": "Développement Mobile",
+      "description": "Créer de belles applications mobiles multiplateformes avec Flutter, offrant des performances natives et des expériences utilisateur fluides."
+    },
+    "db": {
+      "title": "Gestion de Base de Données",
+      "description": "Concevoir et optimiser des architectures de bases de données utilisant des solutions SQL et NoSQL, assurant l'intégrité des données, la sécurité et l'évolutivité."
+    },
+    "bi": {
+      "title": "Business Intelligence",
+      "description": "Mettre en œuvre des solutions BI complètes avec des tableaux de bord interactifs et des rapports automatisés pour une prise de décision basée sur les données."
+    }
+  },
+  "contact": {
+    "title": "Me Contacter",
+    "subtitle": "Travaillons ensemble !",
+    "description": "Je suis toujours intéressé par de nouveaux projets et opportunités. Que vous ayez une question ou que vous vouliez simplement dire bonjour, n'hésitez pas à me contacter !",
+    "available": "Disponible pour contact",
+    "form": {
+      "name": "Nom",
+      "email": "Email",
+      "subject": "Sujet",
+      "message": "Message",
+      "send": "Envoyer le Message"
+    }
+  },
+  "footer": {
+    "description": "Data Scientist & Développeur Full Stack passionné par la transformation des données en insights exploitables.",
+    "quickLinks": "Liens Rapides",
+    "connect": "Connecter",
+    "rights": "Tous droits réservés."
+  }
+}
