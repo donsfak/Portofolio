@@ -222,7 +222,7 @@ function App() {
       </nav>
 
       {/* Hero Section */}
-      <header className="min-h-screen flex items-center justify-center pt-16 relative">
+      <section className="min-h-screen flex items-center justify-center relative pt-32 md:pt-24">
         <div className="max-w-5xl mx-auto px-4 text-center relative z-10">
           <div className="absolute -top-16 left-1/2 transform -translate-x-1/2">
             <div className="relative group">
@@ -282,7 +282,7 @@ function App() {
             </a>
           </div>
         </div>
-      </header>
+      </section>
 
       <main>
         {/* Stats Section */}
@@ -459,13 +459,13 @@ function App() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Frontend */}
             <div 
-              className={`relative bg-white dark:bg-white/5 rounded-2xl p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 ${
+              className={`relative bg-white dark:bg-white/5 rounded-2xl p-8 shadow-sm transition-all duration-300 md:hover:-translate-y-1 ${
                 hoveredSkillCard === 'frontend' 
                   ? 'border-2 border-cyan-400' 
-                  : 'border border-gray-100 dark:border-white/10 hover:border-purple-500/30'
+                  : 'border border-gray-100 dark:border-white/10 md:hover:border-purple-500/30'
               }`}
               style={hoveredSkillCard === 'frontend' ? { boxShadow: '0 0 20px rgba(34, 211, 238, 0.4)' } : {}}
-              onMouseEnter={() => setHoveredSkillCard('frontend')}
+              onMouseEnter={() => window.matchMedia('(min-width: 768px)').matches && setHoveredSkillCard('frontend')}
               onMouseLeave={() => setHoveredSkillCard(null)}
             >
               <h3 className="text-xl font-bold mb-6 text-center">{t('skills.frontend')}</h3>
@@ -485,13 +485,13 @@ function App() {
 
             {/* Backend */}
             <div 
-              className={`relative bg-white dark:bg-white/5 rounded-2xl p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 ${
+              className={`relative bg-white dark:bg-white/5 rounded-2xl p-8 shadow-sm transition-all duration-300 md:hover:-translate-y-1 ${
                 hoveredSkillCard === 'backend' 
                   ? 'border-2 border-cyan-400' 
-                  : 'border border-gray-100 dark:border-white/10 hover:border-purple-500/30'
+                  : 'border border-gray-100 dark:border-white/10 md:hover:border-purple-500/30'
               }`}
               style={hoveredSkillCard === 'backend' ? { boxShadow: '0 0 20px rgba(34, 211, 238, 0.4)' } : {}}
-              onMouseEnter={() => setHoveredSkillCard('backend')}
+              onMouseEnter={() => window.matchMedia('(min-width: 768px)').matches && setHoveredSkillCard('backend')}
               onMouseLeave={() => setHoveredSkillCard(null)}
             >
               <h3 className="text-xl font-bold mb-6 text-center">{t('skills.backend')}</h3>
@@ -511,13 +511,13 @@ function App() {
 
             {/* Mobile */}
             <div 
-              className={`relative bg-white dark:bg-white/5 rounded-2xl p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 ${
+              className={`relative bg-white dark:bg-white/5 rounded-2xl p-8 shadow-sm transition-all duration-300 md:hover:-translate-y-1 ${
                 hoveredSkillCard === 'mobile' 
                   ? 'border-2 border-cyan-400' 
-                  : 'border border-gray-100 dark:border-white/10 hover:border-purple-500/30'
+                  : 'border border-gray-100 dark:border-white/10 md:hover:border-purple-500/30'
               }`}
               style={hoveredSkillCard === 'mobile' ? { boxShadow: '0 0 20px rgba(34, 211, 238, 0.4)' } : {}}
-              onMouseEnter={() => setHoveredSkillCard('mobile')}
+              onMouseEnter={() => window.matchMedia('(min-width: 768px)').matches && setHoveredSkillCard('mobile')}
               onMouseLeave={() => setHoveredSkillCard(null)}
             >
               <h3 className="text-xl font-bold mb-6 text-center">{t('skills.mobile')}</h3>
@@ -537,13 +537,13 @@ function App() {
 
             {/* Data Science */}
             <div 
-              className={`relative bg-white dark:bg-white/5 rounded-2xl p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 ${
+              className={`relative bg-white dark:bg-white/5 rounded-2xl p-8 shadow-sm transition-all duration-300 md:hover:-translate-y-1 ${
                 hoveredSkillCard === 'dataScience' 
                   ? 'border-2 border-cyan-400' 
-                  : 'border border-gray-100 dark:border-white/10 hover:border-purple-500/30'
+                  : 'border border-gray-100 dark:border-white/10 md:hover:border-purple-500/30'
               }`}
               style={hoveredSkillCard === 'dataScience' ? { boxShadow: '0 0 20px rgba(34, 211, 238, 0.4)' } : {}}
-              onMouseEnter={() => setHoveredSkillCard('dataScience')}
+              onMouseEnter={() => window.matchMedia('(min-width: 768px)').matches && setHoveredSkillCard('dataScience')}
               onMouseLeave={() => setHoveredSkillCard(null)}
             >
               <h3 className="text-xl font-bold mb-6 text-center">{t('skills.dataScience')}</h3>
@@ -563,13 +563,13 @@ function App() {
 
             {/* Tools */}
             <div 
-              className={`relative bg-white dark:bg-white/5 rounded-2xl p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 ${
+              className={`relative bg-white dark:bg-white/5 rounded-2xl p-8 shadow-sm transition-all duration-300 md:hover:-translate-y-1 ${
                 hoveredSkillCard === 'tools' 
                   ? 'border-2 border-cyan-400' 
-                  : 'border border-gray-100 dark:border-white/10 hover:border-purple-500/30'
+                  : 'border border-gray-100 dark:border-white/10 md:hover:border-purple-500/30'
               }`}
               style={hoveredSkillCard === 'tools' ? { boxShadow: '0 0 20px rgba(34, 211, 238, 0.4)' } : {}}
-              onMouseEnter={() => setHoveredSkillCard('tools')}
+              onMouseEnter={() => window.matchMedia('(min-width: 768px)').matches && setHoveredSkillCard('tools')}
               onMouseLeave={() => setHoveredSkillCard(null)}
             >
               <h3 className="text-xl font-bold mb-6 text-center">{t('skills.tools')}</h3>
