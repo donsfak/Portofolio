@@ -615,7 +615,7 @@ function App() {
               onMouseEnter={() => window.matchMedia('(min-width: 768px)').matches && setHoveredSkillCard('devops')}
               onMouseLeave={() => setHoveredSkillCard(null)}
             >
-              <h3 className="text-xl font-bold mb-6 text-center">{t('skills.devops')}</h3>
+              <h3 className="text-xl font-bold mb-6 text-center">{t('devops')}</h3>
               <div className="space-y-4">
                 {skills.devops.map((skill, index) => (
                   <div key={index} className="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
