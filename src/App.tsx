@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Github, Linkedin, Mail, Download, ExternalLink, Code, Briefcase, User, Cpu, Moon, Sun, Menu, X, TrendingUp, Award, Users, Rocket, Database, BarChart3, Smartphone, Globe, MapPin, MessageSquare, Send, Phone } from 'lucide-react';
+import { Github, Linkedin, Mail, Download, ExternalLink, Code, Briefcase, User, Cpu, Moon, Sun, Menu, X, TrendingUp, Award, Rocket, Database, BarChart3, Smartphone, Globe, MapPin, MessageSquare, Send, Phone } from 'lucide-react';
 import { ProjectModal } from './components/ProjectModal';
 import { GithubStats } from './components/GithubStats';
+import { DigitalClock } from './components/DigitalClock';
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -99,12 +100,20 @@ function App() {
     i18n.changeLanguage(newLang);
   };
 
+  const getSkillIcon = (skillName: string) => {
+    const normalized = skillName.toLowerCase().replace(/\s+/g, '');
+    if (normalized === 'rive') return '/assets/rive.png';
+    if (normalized === 'tableau') return '/assets/tableau.png';
+    return `https://skillicons.dev/icons?i=${normalized}`;
+  };
+
   const skills = {
-    frontend: ["react", "typescript", "tailwind", "vite"],
-    backend: ["python", "firebase", "supabase", "mysql", "postgresql"],
+    frontend: ["react", "typescript", "tailwind", "vite", "html", "css"],
+    backend: ["python", "firebase", "supabase", "mysql", "postgresql", "sqlite"],
     mobile: ["flutter"],
-    dataScience: ["python", "r"],
-    tools: ["git", "docker", "vercel"]
+    dataScience: ["python", "r", "tableau"],
+    devops: ["git", "docker", "kubernetes", "linux", "vercel"],
+    design: ["figma", "rive", "ai"]
   };
 
 
@@ -209,6 +218,7 @@ function App() {
             <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-white/10" aria-label="Toggle theme">
               {theme === "dark" ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5" />}
             </button>
+            <DigitalClock />
           </div>
         </div>
         {isMenuOpen && (
@@ -310,7 +320,10 @@ function App() {
               <div className="stat-label">{t('stats.technologies')}</div>
             </div>
           </div>
+
         </section>
+
+        {/* About Section */}
 
         {/* About Section */}
         <section id="about" className="section-container bg-white/5">
@@ -428,7 +441,7 @@ function App() {
                        {project.technologies.slice(0, 5).map((tech) => (
                         <span key={tech}>
                           <img 
-                            src={`https://skillicons.dev/icons?i=${tech.toLowerCase().replace(/\s+/g, '')}`} 
+                            src={getSkillIcon(tech)} 
                             alt={tech}
                             className="w-6 h-6 hover:scale-110 transition-transform"
                           />
@@ -503,7 +516,7 @@ function App() {
                 {skills.frontend.map((skill, index) => (
                   <div key={index} className="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                     <img
-                      src={`https://skillicons.dev/icons?i=${skill.toLowerCase().replace(/\s+/g, '')}`}
+                      src={getSkillIcon(skill)}
                       alt={skill}
                       className="w-8 h-8"
                     />
@@ -529,7 +542,7 @@ function App() {
                 {skills.backend.map((skill, index) => (
                   <div key={index} className="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                     <img
-                      src={`https://skillicons.dev/icons?i=${skill.toLowerCase().replace(/\s+/g, '')}`}
+                      src={getSkillIcon(skill)}
                       alt={skill}
                       className="w-8 h-8"
                     />
@@ -555,7 +568,7 @@ function App() {
                 {skills.mobile.map((skill, index) => (
                   <div key={index} className="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                     <img
-                      src={`https://skillicons.dev/icons?i=${skill.toLowerCase().replace(/\s+/g, '')}`}
+                      src={getSkillIcon(skill)}
                       alt={skill}
                       className="w-8 h-8"
                     />
@@ -581,7 +594,7 @@ function App() {
                 {skills.dataScience.map((skill, index) => (
                   <div key={index} className="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                     <img
-                      src={`https://skillicons.dev/icons?i=${skill.toLowerCase().replace(/\s+/g, '')}`}
+                      src={getSkillIcon(skill)}
                       alt={skill}
                       className="w-8 h-8"
                     />
@@ -591,23 +604,49 @@ function App() {
               </div>
             </div>
 
-            {/* Tools */}
+            {/* DevOps */}
             <div 
               className={`relative bg-white dark:bg-white/5 rounded-2xl p-8 shadow-sm transition-all duration-300 md:hover:-translate-y-1 ${
-                hoveredSkillCard === 'tools' 
+                hoveredSkillCard === 'devops' 
                   ? 'border-2 border-cyan-400' 
                   : 'border border-gray-100 dark:border-white/10 md:hover:border-purple-500/30'
               }`}
-              style={hoveredSkillCard === 'tools' ? { boxShadow: '0 0 20px rgba(34, 211, 238, 0.4)' } : {}}
-              onMouseEnter={() => window.matchMedia('(min-width: 768px)').matches && setHoveredSkillCard('tools')}
+              style={hoveredSkillCard === 'devops' ? { boxShadow: '0 0 20px rgba(34, 211, 238, 0.4)' } : {}}
+              onMouseEnter={() => window.matchMedia('(min-width: 768px)').matches && setHoveredSkillCard('devops')}
               onMouseLeave={() => setHoveredSkillCard(null)}
             >
-              <h3 className="text-xl font-bold mb-6 text-center">{t('skills.tools')}</h3>
+              <h3 className="text-xl font-bold mb-6 text-center">{t('skills.devops')}</h3>
               <div className="space-y-4">
-                {skills.tools.map((skill, index) => (
+                {skills.devops.map((skill, index) => (
                   <div key={index} className="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                     <img
-                      src={`https://skillicons.dev/icons?i=${skill.toLowerCase().replace(/\s+/g, '')}`}
+                      src={getSkillIcon(skill)}
+                      alt={skill}
+                      className="w-8 h-8"
+                    />
+                    <span className="font-medium capitalize">{skill}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Design */}
+            <div 
+              className={`relative bg-white dark:bg-white/5 rounded-2xl p-8 shadow-sm transition-all duration-300 md:hover:-translate-y-1 ${
+                hoveredSkillCard === 'design' 
+                  ? 'border-2 border-cyan-400' 
+                  : 'border border-gray-100 dark:border-white/10 md:hover:border-purple-500/30'
+              }`}
+              style={hoveredSkillCard === 'design' ? { boxShadow: '0 0 20px rgba(34, 211, 238, 0.4)' } : {}}
+              onMouseEnter={() => window.matchMedia('(min-width: 768px)').matches && setHoveredSkillCard('design')}
+              onMouseLeave={() => setHoveredSkillCard(null)}
+            >
+              <h3 className="text-xl font-bold mb-6 text-center">{t('skills.design')}</h3>
+              <div className="space-y-4">
+                {skills.design.map((skill, index) => (
+                  <div key={index} className="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+                    <img
+                      src={getSkillIcon(skill)}
                       alt={skill}
                       className="w-8 h-8"
                     />

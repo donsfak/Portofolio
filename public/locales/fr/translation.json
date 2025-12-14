@@ -47,7 +47,9 @@
     "backend": "Backend & Bases de Données",
     "mobile": "Développement Mobile",
     "dataScience": "Data Science & Analytique",
-    "tools": "Outils & Plateformes"
+    "tools": "Outils & Plateformes",
+    "devops": "DevOps & Cloud",
+    "design": "Design & Création"
   },
   "services": {
     "title": "Ce que je fais",
