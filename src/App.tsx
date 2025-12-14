@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Github, Linkedin, Mail, Download, ExternalLink, Code, Briefcase, User, Cpu, Moon, Sun, Menu, X, TrendingUp, Award, Users, Rocket, Database, BarChart3, Smartphone, Globe, MapPin, MessageSquare, Send, Phone } from 'lucide-react';
+import { ProjectModal } from './components/ProjectModal';
+import { GithubStats } from './components/GithubStats';
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -13,6 +15,8 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState('all');
   const [hoveredSkillCard, setHoveredSkillCard] = useState<string | null>(null);
+  const [selectedProject, setSelectedProject] = useState<{ title: string; screenshots: string[] } | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [stats, setStats] = useState({ experience: 0, projects: 0, technologies: 0, clients: 0 });
   const statsRef = useRef<HTMLDivElement>(null);
   const [hasAnimated, setHasAnimated] = useState(false);
@@ -109,19 +113,21 @@ function App() {
       title: "Weather Insights",
       description: "Comprehensive Flutter weather application with real-time forecasts, weather alerts, air quality index, UV index, minute-by-minute precipitation, and smart clothing recommendations. Features beautiful UI with dark mode support.",
       image: "assets/weather.webp",
+      screenshots: ["assets/weather.webp"], 
       technologies: ["Flutter", "Firebase", "API", "ML"],
       category: "mobile",
       github: "https://github.com/donsfak/weather_insights",
-      demo: null
+      demo: "details" 
     },
     {
       title: "To Do App",
       description: "Feature-rich task management application built with Flutter. Implements local data persistence with SQLite, state management with Riverpod, and a clean, intuitive user interface for efficient task tracking.",
-      image: "assets/todolist.webp",
+      image: "assets/trackers_1.png",
+      screenshots: ["assets/trackers_1.png", "assets/trackers_2.png", "assets/trackers_3.png"],
       technologies: ["Flutter", "SQLite", "Riverpod"],
       category: "mobile",
       github: "https://github.com/donsfak/Trackers_app",
-      demo: null
+      demo: "details"
     },
   ];
 
@@ -287,26 +293,21 @@ function App() {
       <main>
         {/* Stats Section */}
         <section ref={statsRef} className="section-container">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-            <div className="stat-card">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 justify-items-center">
+            <div className="stat-card w-full max-w-[250px]">
               <TrendingUp className="w-12 h-12 mx-auto mb-4 text-purple-600" />
-              <div className="stat-number">{stats.experience}+</div>
-              <div className="stat-label">{t('stats.experience')}</div>
+              <div className="stat-number">6</div>
+              <div className="stat-label">Mois d'experience</div>
             </div>
-            <div className="stat-card">
+            <div className="stat-card w-full max-w-[250px]">
               <Rocket className="w-12 h-12 mx-auto mb-4 text-pink-500" />
-              <div className="stat-number">{stats.projects}+</div>
+              <div className="stat-number">3+</div>
               <div className="stat-label">{t('stats.projects')}</div>
             </div>
-            <div className="stat-card">
+            <div className="stat-card w-full max-w-[250px]">
               <Code className="w-12 h-12 mx-auto mb-4 text-blue-500" />
               <div className="stat-number">{stats.technologies}+</div>
               <div className="stat-label">{t('stats.technologies')}</div>
-            </div>
-            <div className="stat-card">
-              <Users className="w-12 h-12 mx-auto mb-4 text-purple-600" />
-              <div className="stat-number">{stats.clients}+</div>
-              <div className="stat-label">{t('stats.clients')}</div>
             </div>
           </div>
         </section>
@@ -338,14 +339,14 @@ function App() {
                 <Briefcase className="w-8 h-8 text-pink-500 flex-shrink-0 mt-1" />
                 <div>
                   <h3 className="font-semibold text-lg mb-1">{t('about.currentRole')}</h3>
-                  <p className="text-gray-600 dark:text-gray-400">GNOC IN VAS Engineer at Huawei</p>
+                  <p className="text-gray-600 dark:text-gray-400">Etudiant</p>
                 </div>
               </div>
               <div className="glass-card flex items-start gap-4">
                 <MapPin className="w-8 h-8 text-blue-500 flex-shrink-0 mt-1" />
                 <div>
                   <h3 className="font-semibold text-lg mb-1">{t('about.location')}</h3>
-                  <p className="text-gray-600 dark:text-gray-400">Côte d'Ivoire</p>
+                  <p className="text-gray-600 dark:text-gray-400">Abidjan,Côte d'Ivoire</p>
                 </div>
               </div>
             </div>
@@ -405,49 +406,78 @@ function App() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {filteredProjects.map((project, index) => (
-              <div key={index} className="project-card group">
-                <img 
-                  src={project.image} 
-                  alt={project.title} 
-                  className="w-full aspect-video object-cover"
-                />
-                <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8 translate-y-8 group-hover:translate-y-0 transition-transform">
-                  <h3 className="text-2xl md:text-3xl font-semibold text-white mb-2">{project.title}</h3>
-                  <p className="text-gray-200 mb-4 opacity-0 group-hover:opacity-100 transition-opacity text-sm md:text-base">
+              <div 
+                key={index} 
+                className="group relative bg-[#0f1115] rounded-2xl overflow-hidden border border-white/5 hover:border-purple-500/30 transition-all duration-300 hover:shadow-[0_0_30px_rgba(168,85,247,0.15)] md:hover:-translate-y-2 flex flex-col"
+              >
+                {/* Image Section - Dark Background + Contain to avoid crop */}
+                <div className="relative w-full aspect-[16/9] bg-[#0A0A0A] overflow-hidden border-b border-white/5 group-hover:border-cyan-500/20 transition-colors">
+                  <img 
+                    src={project.image} 
+                    alt={project.title} 
+                    className="w-full h-full object-contain p-2 transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+
+                <div className="p-6 md:p-8 flex-1 flex flex-col bg-[#0f1115]">
+                  <div className="flex justify-between items-start mb-4">
+                    <h3 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors">
+                      {project.title}
+                    </h3>
+                    <div className="flex gap-2">
+                       {project.technologies.slice(0, 5).map((tech) => (
+                        <span key={tech}>
+                          <img 
+                            src={`https://skillicons.dev/icons?i=${tech.toLowerCase().replace(/\s+/g, '')}`} 
+                            alt={tech}
+                            className="w-6 h-6 hover:scale-110 transition-transform"
+                          />
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <p className="text-gray-400 mb-6 line-clamp-3 text-sm flex-1 leading-relaxed">
                     {project.description}
                   </p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.technologies.map((tech) => (
-                      <span key={tech} className="px-3 py-1 rounded-full text-xs md:text-sm bg-white/20 text-white backdrop-blur-sm">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="flex gap-4">
-                    <a 
-                      href={project.github} 
-                      target="_blank"
-                      className="inline-flex items-center text-white hover:text-purple-300 transition-colors"
-                    >
-                      <Github className="w-5 h-5 mr-2" />
-                      {t('projects.viewCode')}
-                    </a>
-                    {project.demo && (
-                      <a 
-                        href={project.demo} 
-                        target="_blank"
-                        className="inline-flex items-center text-white hover:text-purple-300 transition-colors"
+
+                  <div className="flex gap-6 mt-auto items-center">
+                     {project.demo && (
+                      <button 
+                        onClick={() => {
+                          setSelectedProject(project);
+                          setIsModalOpen(true);
+                        }}
+                        className="inline-flex items-center text-blue-500 hover:text-blue-400 font-medium transition-colors"
                       >
                         <ExternalLink className="w-5 h-5 mr-2" />
                         {t('projects.liveDemo')}
-                      </a>
+                      </button>
                     )}
+                    <a 
+                      href={project.github} 
+                      target="_blank"
+                      className="inline-flex items-center text-white hover:text-gray-300 font-medium transition-colors"
+                    >
+                      <Github className="w-5 h-5 mr-2" />
+                      GitHub
+                    </a>
                   </div>
                 </div>
               </div>
             ))}
           </div>
         </section>
+
+        {/* GitHub Stats Section */}
+        <GithubStats />
+
+        {/* Project Modal */}
+        <ProjectModal 
+          isOpen={isModalOpen} 
+          onClose={() => setIsModalOpen(false)} 
+          project={selectedProject} 
+        />
 
         {/* Skills Section */}
         <section id="skills" className="section-container">
@@ -658,11 +688,11 @@ function App() {
                 </div>
                 <div className="flex items-center gap-4">
                   <Phone className="w-6 h-6 text-purple-600" />
-                  <span>{t('contact.available')}</span>
+                  <span>{t('+225 0779316205')}</span>
                 </div>
                 <div className="flex items-center gap-4">
                   <MapPin className="w-6 h-6 text-purple-600" />
-                  <span>{t('about.location')}</span>
+                  <span>{t('Abidjan, Côte d\'Ivoire')}</span>
                 </div>
               </div>
             </div>
