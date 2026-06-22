@@ -92,9 +92,14 @@
       "name": "Name",
       "email": "Email",
       "subject": "Subject",
+      "subjectPlaceholder": "What's this about?",
       "message": "Message",
-      "send": "Send Message"
-    }
+      "messagePlaceholder": "Tell me about your project or question...",
+      "send": "Send Message",
+      "sending": "Sending..."
+    },
+    "errorDesc": "Something went wrong. Please try again or email me directly.",
+    "privacy": "Your message is sent directly to my inbox."
   },
   "footer": {
     "description": "Data Scientist & Full Stack Developer passionate about transforming data into actionable insights.",

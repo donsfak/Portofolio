@@ -92,9 +92,14 @@
       "name": "Nom",
       "email": "Email",
       "subject": "Sujet",
+      "subjectPlaceholder": "De quoi s'agit-il ?",
       "message": "Message",
-      "send": "Envoyer le Message"
-    }
+      "messagePlaceholder": "Parlez-moi de votre projet ou question...",
+      "send": "Envoyer le Message",
+      "sending": "Envoi en cours..."
+    },
+    "errorDesc": "Une erreur est survenue. Veuillez réessayer ou m'écrire directement.",
+    "privacy": "Votre message est envoyé directement dans ma boîte mail."
   },
   "footer": {
     "description": "Data Scientist & Développeur Full Stack passionné par la transformation des données en insights exploitables.",
