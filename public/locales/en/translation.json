@@ -9,15 +9,15 @@
   },
   "hero": {
     "role": "Data Scientist Junior",
-    "tagline": "Transforming data into insights | Building intelligent solutions",
+    "tagline": "Transforming data into insights · Building intelligent solutions",
     "downloadCv": "Download CV",
-    "getInTouch": "Get In Touch"
+    "getInTouch": "Get In Touch",
+    "available": "Available for work"
   },
   "stats": {
-    "experience": "Years Experience",
+    "experience": "Months Experience",
     "projects": "Projects Completed",
-    "technologies": "Technologies",
-    "clients": "Happy Clients"
+    "technologies": "Technologies"
   },
   "about": {
     "title": "About Me",
@@ -25,7 +25,9 @@
     "description2": "With this first experience in data manipulation, statistical analysis and visualization, I am determined to take on new challenges and contribute to the success of an innovative data team.",
     "education": "Education",
     "currentRole": "Current Role",
-    "location": "Location"
+    "location": "Location",
+    "available": "Open to opportunities",
+    "availableDesc": "Actively looking for internships & junior positions"
   },
   "experience": {
     "title": "Experience"
@@ -33,7 +35,7 @@
   "projects": {
     "title": "Projects",
     "viewCode": "View Code",
-    "liveDemo": "Live Demo",
+    "liveDemo": "Screenshots",
     "filters": {
       "all": "All",
       "mobile": "Mobile",
@@ -83,6 +85,9 @@
     "subtitle": "Let's work together!",
     "description": "I'm always interested in hearing about new projects and opportunities. Whether you have a question or just want to say hi, feel free to reach out!",
     "available": "Available for contact",
+    "successTitle": "Message sent!",
+    "successDesc": "Thank you for reaching out. I'll get back to you as soon as possible.",
+    "sendAnother": "Send another",
     "form": {
       "name": "Name",
       "email": "Email",

@@ -9,23 +9,25 @@
   },
   "hero": {
     "role": "Data Scientist Junior",
-    "tagline": "Transformer les données en insights | Créer des solutions intelligentes",
+    "tagline": "Transformer les données en insights · Créer des solutions intelligentes",
     "downloadCv": "Télécharger CV",
-    "getInTouch": "Me Contacter"
+    "getInTouch": "Me Contacter",
+    "available": "Disponible"
   },
   "stats": {
-    "experience": "Années d'Expérience",
+    "experience": "Mois d'Expérience",
     "projects": "Projets Réalisés",
-    "technologies": "Technologies",
-    "clients": "Clients Satisfaits"
+    "technologies": "Technologies"
   },
   "about": {
     "title": "À Propos de Moi",
-    "description1": "Actuellement étudiant en Master Mobiquité, Big Data et Systèmes à l'ESATIC (en partenariat avec l'Université Côte d'Azur), je souhaite mettre à profit les compétences que j'ai développées lors de mon diplôme en informatique et consolidées durant un stage de six mois en analyse de données.",
+    "description1": "Actuellement étudiant en Master Mobiquité, Big Data et Systèmes à l'ESATIC (en partenariat avec l'Université Côte d'Azur), je souhaite mettre à profit les compétences développées lors de mon diplôme en informatique et consolidées durant un stage de six mois en analyse de données.",
     "description2": "Fort de cette première expérience en manipulation de données, analyse statistique et visualisation, je suis déterminé à relever de nouveaux défis et à contribuer au succès d'une équipe data innovante.",
-    "education": "Éducation",
-    "currentRole": "Poste Actuel",
-    "location": "Localisation"
+    "education": "Formation",
+    "currentRole": "Statut Actuel",
+    "location": "Localisation",
+    "available": "Ouvert aux opportunités",
+    "availableDesc": "À la recherche de stages et postes juniors"
   },
   "experience": {
     "title": "Expérience"
@@ -33,7 +35,7 @@
   "projects": {
     "title": "Projets",
     "viewCode": "Voir le Code",
-    "liveDemo": "Démo Live",
+    "liveDemo": "Captures",
     "filters": {
       "all": "Tout",
       "mobile": "Mobile",
@@ -59,11 +61,11 @@
     },
     "ml": {
       "title": "Solutions Machine Learning",
-      "description": "Développer et déployer des modèles ML intelligents pour la prédiction, la classification et la reconnaissance de formes pour résoudre des problèmes commerciaux complexes."
+      "description": "Développer et déployer des modèles ML intelligents pour la prédiction, la classification et la reconnaissance de formes afin de résoudre des problèmes métier complexes."
     },
     "web": {
       "title": "Développement Web",
-      "description": "Construire des applications web modernes et réactives utilisant React, TypeScript et des frameworks de pointe en mettant l'accent sur la performance et l'expérience utilisateur."
+      "description": "Construire des applications web modernes et réactives avec React, TypeScript et des frameworks de pointe, en mettant l'accent sur la performance et l'expérience utilisateur."
     },
     "mobile": {
       "title": "Développement Mobile",
@@ -71,7 +73,7 @@
     },
     "db": {
       "title": "Gestion de Base de Données",
-      "description": "Concevoir et optimiser des architectures de bases de données utilisant des solutions SQL et NoSQL, assurant l'intégrité des données, la sécurité et l'évolutivité."
+      "description": "Concevoir et optimiser des architectures de bases de données SQL et NoSQL, en assurant l'intégrité des données, la sécurité et la scalabilité."
     },
     "bi": {
       "title": "Business Intelligence",
@@ -81,8 +83,11 @@
   "contact": {
     "title": "Me Contacter",
     "subtitle": "Travaillons ensemble !",
-    "description": "Je suis toujours intéressé par de nouveaux projets et opportunités. Que vous ayez une question ou que vous vouliez simplement dire bonjour, n'hésitez pas à me contacter !",
+    "description": "Je suis toujours intéressé par de nouveaux projets et opportunités. N'hésitez pas à me contacter pour toute question ou collaboration !",
     "available": "Disponible pour contact",
+    "successTitle": "Message envoyé !",
+    "successDesc": "Merci de m'avoir contacté. Je vous répondrai dans les meilleurs délais.",
+    "sendAnother": "Envoyer un autre",
     "form": {
       "name": "Nom",
       "email": "Email",
