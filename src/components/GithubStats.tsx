@@ -42,18 +42,19 @@ async function fetchGithubData(): Promise<GithubData> {
     if (Date.now() - timestamp < CACHE_TTL) return data;
   }
 
+  // The search endpoint fails independently (stricter rate limit, flaky CORS
+  // headers) — it must never take the other stats down with it.
   const [userRes, reposRes, commitsRes] = await Promise.all([
     fetch(`https://api.github.com/users/${GITHUB_USERNAME}`),
     fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=pushed`),
-    fetch(`https://api.github.com/search/commits?q=author:${GITHUB_USERNAME}&per_page=1`),
+    fetch(`https://api.github.com/search/commits?q=author:${GITHUB_USERNAME}&per_page=1`).catch(() => null),
   ]);
 
   if (!userRes.ok || !reposRes.ok) throw new Error('GitHub API request failed');
 
   const user = await userRes.json();
   const repos: RepoInfo[] = await reposRes.json();
-  // Commit search can be rate-limited independently; degrade gracefully
-  const totalCommits = commitsRes.ok ? (await commitsRes.json()).total_count : 0;
+  const totalCommits = commitsRes?.ok ? (await commitsRes.json()).total_count : 0;
 
   const data: GithubData = {
     followers: user.followers,
@@ -84,7 +85,7 @@ export function GithubStats() {
   }, []);
 
   return (
-    <section className="section-container">
+    <section className="reveal section-container">
       <div className="flex items-center gap-4 mb-12 justify-center">
         <Github className="w-8 h-8 text-cyan-400" />
         <h2 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-500">
@@ -122,7 +123,7 @@ export function GithubStats() {
               <StatsCard
                 icon={<GitCommit className="w-5 h-5 text-cyan-400" />}
                 label="Commits"
-                value={data.totalCommits >= 500 ? '500+' : data.totalCommits}
+                value={data.totalCommits >= 500 ? '500+' : data.totalCommits || '—'}
               />
               <StatsCard
                 icon={<Star className="w-5 h-5 text-yellow-400" />}

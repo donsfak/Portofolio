@@ -48,7 +48,7 @@ export function Certifications() {
     });
 
   return (
-    <section id="certifications" className="section-container border-t border-gray-100 dark:border-white/[0.05]">
+    <section id="certifications" className="reveal section-container border-t border-gray-100 dark:border-white/[0.05]">
       <div className="section-title-bar">
         <span className="section-icon bg-yellow-500/10"><Award className="w-6 h-6 text-yellow-500" /></span>
         <h2 className="text-3xl md:text-4xl font-bold">{t('certifications.title')}</h2>

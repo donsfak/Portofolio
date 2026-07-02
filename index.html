@@ -5,6 +5,17 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Security: GitHub Pages cannot set HTTP headers, so CSP lives here.
+         Allowed hosts: GitHub API + contributions API (stats), skillicons (skill logos),
+         Google Fonts, EmailJS (contact form). -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://skillicons.dev https://avatars.githubusercontent.com; connect-src 'self' https://api.github.com https://github-contributions-api.jogruber.de https://api.emailjs.com; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#080810" />
+
     <!-- SEO Meta Tags -->
     <title>Soro Falibeta | Data Scientist & Full Stack Developer</title>
     <meta

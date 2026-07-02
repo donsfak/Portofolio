@@ -81,6 +81,7 @@ function App() {
   const [roleFading,       setRoleFading]       = useState(false);
   const [formState,        setFormState]        = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [formError,        setFormError]        = useState('');
+  const [scrollProgress,   setScrollProgress]   = useState(0);
 
   const statsRef     = useRef<HTMLDivElement>(null);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
@@ -100,6 +101,8 @@ function App() {
       setNavVisible(prevScrollPos > y || y < 10);
       setPrevScrollPos(y);
       setShowScrollTop(y > 400);
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(scrollable > 0 ? (y / scrollable) * 100 : 0);
     };
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
@@ -116,6 +119,21 @@ function App() {
       return o;
     });
     return () => obs.forEach((o) => o?.disconnect());
+  }, []);
+
+  // Reveal sections on scroll
+  useEffect(() => {
+    const els = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    els.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
   }, []);
 
   // Rotating role
@@ -155,6 +173,12 @@ function App() {
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormError('');
+
+    // Honeypot: hidden field that only bots fill in
+    if ((new FormData(e.currentTarget).get('company') as string)?.length) {
+      setFormState('success');
+      return;
+    }
 
     // If EmailJS is not configured, fall back to mailto
     if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
@@ -216,6 +240,9 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#080810] text-gray-900 dark:text-white relative overflow-x-hidden">
+      {/* Scroll progress */}
+      <div className="scroll-progress" style={{ width: `${scrollProgress}%` }} />
+
       {/* Particle bg */}
       <div className="particle-bg">
         <div className="particle w-96 h-96 bg-purple-600 top-10  left-0"    style={{ animationDelay:'0s' }} />
@@ -345,7 +372,7 @@ function App() {
 
       <main>
         {/* ── Stats ──────────────────────────────────────────────────────── */}
-        <section ref={statsRef} className="max-w-4xl mx-auto px-4 pb-16 md:pb-24">
+        <section ref={statsRef} className="reveal max-w-4xl mx-auto px-4 pb-16 md:pb-24">
           <div className="grid grid-cols-3 gap-4">
             {[
               { icon: <TrendingUp className="w-6 h-6 text-purple-500 mx-auto mb-2" />, val: `${stats.experience}`, label: t('stats.experience') },
@@ -362,7 +389,7 @@ function App() {
         </section>
 
         {/* ── About ──────────────────────────────────────────────────────── */}
-        <section id="about" className="section-container border-t border-gray-100 dark:border-white/[0.05]">
+        <section id="about" className="reveal section-container border-t border-gray-100 dark:border-white/[0.05]">
           <div className="section-title-bar">
             <span className="section-icon bg-purple-500/10"><User className="w-6 h-6 text-purple-500" /></span>
             <h2 className="text-3xl md:text-4xl font-bold">{t('about.title')}</h2>
@@ -407,7 +434,7 @@ function App() {
         </section>
 
         {/* ── Experience ─────────────────────────────────────────────────── */}
-        <section id="experience" className="section-container border-t border-gray-100 dark:border-white/[0.05] bg-white/40 dark:bg-white/[0.015]">
+        <section id="experience" className="reveal section-container border-t border-gray-100 dark:border-white/[0.05] bg-white/40 dark:bg-white/[0.015]">
           <div className="section-title-bar">
             <span className="section-icon bg-pink-500/10"><Briefcase className="w-6 h-6 text-pink-500" /></span>
             <h2 className="text-3xl md:text-4xl font-bold">{t('experience.title')}</h2>
@@ -483,7 +510,7 @@ function App() {
         </section>
 
         {/* ── Projects ───────────────────────────────────────────────────── */}
-        <section id="projects" className="section-container border-t border-gray-100 dark:border-white/[0.05]">
+        <section id="projects" className="reveal section-container border-t border-gray-100 dark:border-white/[0.05]">
           <div className="section-title-bar">
             <span className="section-icon bg-blue-500/10"><Layers className="w-6 h-6 text-blue-500" /></span>
             <h2 className="text-3xl md:text-4xl font-bold">{t('projects.title')}</h2>
@@ -552,7 +579,7 @@ function App() {
         <ProjectModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} project={selectedProject} />
 
         {/* ── Skills ─────────────────────────────────────────────────────── */}
-        <section id="skills" className="section-container border-t border-gray-100 dark:border-white/[0.05] bg-white/40 dark:bg-white/[0.015]">
+        <section id="skills" className="reveal section-container border-t border-gray-100 dark:border-white/[0.05] bg-white/40 dark:bg-white/[0.015]">
           <div className="section-title-bar">
             <span className="section-icon bg-pink-500/10"><Cpu className="w-6 h-6 text-pink-500" /></span>
             <h2 className="text-3xl md:text-4xl font-bold">{t('skills.title')}</h2>
@@ -570,7 +597,7 @@ function App() {
         <Certifications />
 
         {/* ── Services ───────────────────────────────────────────────────── */}
-        <section id="services" className="section-container border-t border-gray-100 dark:border-white/[0.05]">
+        <section id="services" className="reveal section-container border-t border-gray-100 dark:border-white/[0.05]">
           <div className="section-title-bar">
             <span className="section-icon bg-purple-500/10"><Rocket className="w-6 h-6 text-purple-500" /></span>
             <h2 className="text-3xl md:text-4xl font-bold">{t('services.title')}</h2>
@@ -588,7 +615,7 @@ function App() {
         </section>
 
         {/* ── Contact ────────────────────────────────────────────────────── */}
-        <section id="contact" className="section-container border-t border-gray-100 dark:border-white/[0.05] bg-white/40 dark:bg-white/[0.015]">
+        <section id="contact" className="reveal section-container border-t border-gray-100 dark:border-white/[0.05] bg-white/40 dark:bg-white/[0.015]">
           <div className="section-title-bar">
             <span className="section-icon bg-purple-500/10"><Send className="w-6 h-6 text-purple-500" /></span>
             <h2 className="text-3xl md:text-4xl font-bold">{t('contact.title')}</h2>
@@ -641,23 +668,25 @@ function App() {
               </div>
             ) : (
               <form ref={formRef} className="space-y-4" onSubmit={handleFormSubmit}>
+                <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden="true"
+                  className="absolute opacity-0 -z-10 h-0 w-0 pointer-events-none" />
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="form-label">{t('contact.form.name')}</label>
-                    <input type="text" name="from_name" className="form-input" placeholder="John Doe" required />
+                    <input type="text" name="from_name" className="form-input" placeholder="John Doe" maxLength={100} required />
                   </div>
                   <div>
                     <label className="form-label">{t('contact.form.email')}</label>
-                    <input type="email" name="from_email" className="form-input" placeholder="john@email.com" required />
+                    <input type="email" name="from_email" className="form-input" placeholder="john@email.com" maxLength={150} required />
                   </div>
                 </div>
                 <div>
                   <label className="form-label">{t('contact.form.subject')}</label>
-                  <input type="text" name="subject" className="form-input" placeholder={t('contact.form.subjectPlaceholder')} required />
+                  <input type="text" name="subject" className="form-input" placeholder={t('contact.form.subjectPlaceholder')} maxLength={150} required />
                 </div>
                 <div>
                   <label className="form-label">{t('contact.form.message')}</label>
-                  <textarea name="message" className="form-textarea" rows={5} placeholder={t('contact.form.messagePlaceholder')} required />
+                  <textarea name="message" className="form-textarea" rows={5} placeholder={t('contact.form.messagePlaceholder')} maxLength={3000} required />
                 </div>
                 {formState === 'error' && (
                   <div className="flex items-center gap-2 p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-xs text-red-400">

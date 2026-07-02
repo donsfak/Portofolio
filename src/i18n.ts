@@ -10,7 +10,7 @@ i18n
   .init({
     fallbackLng: 'fr',
     lng: 'fr', // Set French as default
-    debug: true,
+    debug: import.meta.env.DEV,
     interpolation: {
       escapeValue: false,
     },
