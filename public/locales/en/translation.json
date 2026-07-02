@@ -4,6 +4,7 @@
     "experience": "Experience",
     "projects": "Projects",
     "skills": "Skills",
+    "certifications": "Certifications",
     "services": "Services",
     "contact": "Contact"
   },
@@ -52,6 +53,13 @@
     "tools": "Tools & Platforms",
     "devops": "DevOps & Cloud",
     "design": "Design & Creative"
+  },
+  "certifications": {
+    "title": "Certifications",
+    "view": "View Certificate",
+    "download": "Download",
+    "verify": "Verify",
+    "hours": "hours"
   },
   "services": {
     "title": "What I Do",

@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { ProjectModal } from './components/ProjectModal';
 import { GithubStats } from './components/GithubStats';
+import { Certifications } from './components/Certifications';
 import { DigitalClock } from './components/DigitalClock';
 
 // ─── EmailJS config ────────────────────────────────────────────────────────────
@@ -106,7 +107,7 @@ function App() {
 
   // Active section
   useEffect(() => {
-    const ids = ['about', 'experience', 'projects', 'skills', 'services', 'contact'];
+    const ids = ['about', 'experience', 'projects', 'skills', 'certifications', 'services', 'contact'];
     const obs = ids.map((id) => {
       const el = document.getElementById(id);
       if (!el) return null;
@@ -210,7 +211,7 @@ function App() {
     { icon: <TrendingUp className="w-9 h-9" />,  title: t('services.bi.title'),           description: t('services.bi.description'),           color: 'text-orange-500', bg: 'bg-orange-500/10' },
   ];
 
-  const navLinks = ['about','experience','projects','skills','services','contact'] as const;
+  const navLinks = ['about','experience','projects','skills','certifications','services','contact'] as const;
   const catLabel: Record<string,string> = { mobile: 'Mobile', web: 'Web', dataScience: 'Data' };
 
   return (
@@ -462,9 +463,9 @@ function App() {
                 </div>
                 <ul className="space-y-2 mb-4">
                   {[
-                    'Machine Learning, Deep Learning & Intelligence Artificielle',
-                    'Big Data : Hadoop, Spark, architectures distribuées',
-                    'Développement mobile avancé (Flutter) et systèmes embarqués',
+                    'Machine Learning & Intelligence Artificielle',
+                    'Big Data : Hadoop,architectures distribuées',
+                    'Développement web et systèmes embarqués',
                   ].map(item => (
                     <li key={item} className="flex items-start gap-2 text-xs text-gray-600 dark:text-gray-400">
                       <CheckCircle2 className="w-3.5 h-3.5 mt-0.5 text-pink-500 flex-shrink-0" />{item}
@@ -564,6 +565,9 @@ function App() {
             ))}
           </div>
         </section>
+
+        {/* ── Certifications ─────────────────────────────────────────────── */}
+        <Certifications />
 
         {/* ── Services ───────────────────────────────────────────────────── */}
         <section id="services" className="section-container border-t border-gray-100 dark:border-white/[0.05]">
