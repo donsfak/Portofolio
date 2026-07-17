@@ -10,7 +10,19 @@ import {
 import { ProjectModal } from './components/ProjectModal';
 import { GithubStats } from './components/GithubStats';
 import { Certifications } from './components/Certifications';
+import { CaseStudyDataTour } from './components/CaseStudyDataTour';
 import { DigitalClock } from './components/DigitalClock';
+
+const CASE_STUDY_DATATOUR = '#/etude-de-cas/data-tour-2026';
+
+interface Project {
+  title: string; description: string; image: string;
+  screenshots?: string[]; technologies: string[]; category: string;
+  github?: string; demo?: string; caseStudy?: string;
+}
+
+// Techs whose skillicons.dev icon is an empty SVG — hidden from the icon row
+const NO_ICON_TECHS = new Set(['lightgbm', 'xgboost', 'catboost']);
 
 // ─── EmailJS config ────────────────────────────────────────────────────────────
 // Create a free account at emailjs.com, then fill in your IDs below.
@@ -83,6 +95,7 @@ function App() {
   const [formError,        setFormError]        = useState('');
   const [scrollProgress,   setScrollProgress]   = useState(0);
 
+  const [route,         setRoute]         = useState(() => typeof window !== 'undefined' ? window.location.hash : '');
   const statsRef     = useRef<HTMLDivElement>(null);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [navVisible,    setNavVisible]    = useState(true);
@@ -121,6 +134,18 @@ function App() {
     return () => obs.forEach((o) => o?.disconnect());
   }, []);
 
+  // Hash routing (case study pages) + body scroll lock while one is open
+  useEffect(() => {
+    const onHash = () => setRoute(window.location.hash);
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = route === CASE_STUDY_DATATOUR ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [route]);
+
   // Reveal sections on scroll
   useEffect(() => {
     const els = document.querySelectorAll('.reveal');
@@ -150,7 +175,7 @@ function App() {
     const observer = new IntersectionObserver(([e]) => {
       if (!e.isIntersecting || hasAnimated) return;
       setHasAnimated(true);
-      const targets = { experience: 6, projects: 3, technologies: 20 };
+      const targets = { experience: 6, projects: 4, technologies: 20 };
       const steps = 60;
       let step = 0;
       const iv = setInterval(() => {
@@ -219,7 +244,8 @@ function App() {
     { id: 'design',      titleKey: 'skills.design',      accent: 'pink',   skills: ['figma','rive','ai'] },
   ];
 
-  const projects = [
+  const projects: Project[] = [
+    { title: 'Détection de Fraude Mobile Money', description: "Champion national du Data Tour 2026 (Côte d'Ivoire) avec l'équipe OUTLIERS. Détection de fraude sur ~1,3 M de transactions : ensemble de 45 modèles de gradient boosting, target encoding out-of-fold et validation par extrapolation temporelle (métrique : PR-AUC).", image: 'assets/case-study/equipe-outliers.webp', technologies: ['Python','LightGBM','XGBoost','CatBoost'], category: 'dataScience', caseStudy: CASE_STUDY_DATATOUR, github: 'https://github.com/donsfak/Portofolio/blob/main/case-studies/data-tour-2026-fraude-mobile-money.md' },
     { title: 'Weather Insights', description: 'Comprehensive Flutter weather app with real-time forecasts, air quality index, UV index, precipitation data, and smart clothing recommendations. Built with dark mode support and beautiful animations.', image: 'assets/weather.webp', screenshots: ['assets/weather.webp'], technologies: ['Flutter','Firebase','API','ML'], category: 'mobile', github: 'https://github.com/donsfak/weather_insights', demo: 'details' },
     { title: 'To Do App',        description: 'Feature-rich task management app built with Flutter. Implements local persistence with SQLite, state management with Riverpod, and a clean UX for efficient task tracking.',                             image: 'assets/trackers_1.png', screenshots: ['assets/trackers_1.png','assets/trackers_2.png','assets/trackers_3.png'], technologies: ['Flutter','SQLite','Riverpod'], category: 'mobile', github: 'https://github.com/donsfak/Trackers_app', demo: 'details' },
   ];
@@ -545,7 +571,7 @@ function App() {
                   <div className="flex items-start justify-between mb-2">
                     <h3 className="text-base font-bold group-hover:text-purple-500 dark:group-hover:text-purple-400 transition-colors">{project.title}</h3>
                     <div className="flex gap-1">
-                      {project.technologies.slice(0,4).map(tech => (
+                      {project.technologies.filter(t => !NO_ICON_TECHS.has(t.toLowerCase())).slice(0,4).map(tech => (
                         <img key={tech} src={getSkillIcon(tech)} alt={tech} className="w-5 h-5" />
                       ))}
                     </div>
@@ -557,16 +583,24 @@ function App() {
                     ))}
                   </div>
                   <div className="flex gap-4 mt-auto">
-                    {project.demo && (
-                      <button onClick={() => { setSelectedProject(project); setIsModalOpen(true); }}
+                    {project.caseStudy && (
+                      <a href={project.caseStudy}
+                        className="flex items-center gap-1.5 text-xs text-purple-600 dark:text-purple-400 hover:text-purple-500 font-semibold transition-colors">
+                        <Award className="w-3.5 h-3.5" />{t('projects.caseStudy')}
+                      </a>
+                    )}
+                    {project.demo && project.screenshots && (
+                      <button onClick={() => { setSelectedProject({ title: project.title, screenshots: project.screenshots! }); setIsModalOpen(true); }}
                         className="flex items-center gap-1.5 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-500 font-semibold transition-colors">
                         <ExternalLink className="w-3.5 h-3.5" />{t('projects.liveDemo')}
                       </button>
                     )}
-                    <a href={project.github} target="_blank" rel="noreferrer"
-                      className="flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 font-semibold transition-colors">
-                      <Github className="w-3.5 h-3.5" />GitHub
-                    </a>
+                    {project.github && (
+                      <a href={project.github} target="_blank" rel="noreferrer"
+                        className="flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 font-semibold transition-colors">
+                        <Github className="w-3.5 h-3.5" />GitHub
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>
@@ -737,6 +771,11 @@ function App() {
       <button onClick={scrollToTop} aria-label="Scroll to top" className={`scroll-top-btn ${showScrollTop ? 'scroll-top-btn-visible' : ''}`}>
         <ChevronUp className="w-5 h-5" />
       </button>
+
+      {/* Case study overlay (hash-routed, works on GitHub Pages) */}
+      {route === CASE_STUDY_DATATOUR && (
+        <CaseStudyDataTour onBack={() => { window.location.hash = ''; }} />
+      )}
     </div>
   );
 }
