@@ -17,7 +17,7 @@ Le **Data Tour** est une compétition de data science panafricaine. Pour la phas
 L'enjeu métier est réel : le Mobile Money est le premier moyen de paiement électronique en Afrique de l'Ouest. Chaque fraude non détectée coûte de l'argent à l'opérateur et à ses clients ; chaque fausse alerte dégrade l'expérience d'un client légitime. Le modèle doit donc être **précis dans les deux sens** — d'où le choix d'une métrique adaptée (voir plus bas).
 
 - **Équipe :** OUTLIERS — 3 membres
-- **Mon rôle :** [À COMPLÉTER : ex. feature engineering & modélisation]
+- **Mon rôle :** Modélisation & expérimentation — construction et test des modèles, pilotage des itérations. J'ai également contribué au feature engineering et à la méthodologie de validation.
 - **Résultat :** 🥇 **Champion national** (1ʳᵉ place, phase nationale, Côte d'Ivoire)
 
 ---
