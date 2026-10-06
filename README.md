@@ -50,21 +50,25 @@ npm run preview
 
 ```
 src/
-├── App.tsx                  # Main page layout & all sections
+├── App.tsx                  # Global state (theme, scroll, routing) + page layout
 ├── index.css                # Global styles & utility classes
 ├── i18n.ts                  # i18next setup (translations bundled)
 ├── main.tsx                 # React entry point
 ├── data/
-│   └── portfolio.ts         # Projects & experience timeline
-├── locales/
-│   ├── en/translation.json  # English strings
-│   └── fr/translation.json  # French strings
-└── components/
-    ├── CaseStudyDataTour.tsx # Data Tour 2026 case study page
-    ├── Certifications.tsx   # Certificates grid
-    ├── DigitalClock.tsx     # Live clock in the navbar
-    ├── GithubStats.tsx      # GitHub calendar + stats cards
-    └── ProjectModal.tsx     # Screenshot gallery modal
+│   └── portfolio.ts         # All content: projects, experience, skills, contact (FR + EN)
+├── sections/                # One component per page section
+│   ├── Navbar.tsx  Hero.tsx  Stats.tsx  About.tsx  Experience.tsx
+│   └── Projects.tsx  Skills.tsx  Services.tsx  Contact.tsx  Footer.tsx
+├── components/
+│   ├── CaseStudyDataTour.tsx # Data Tour 2026 case study page
+│   ├── Certifications.tsx   # Certificates grid
+│   ├── DigitalClock.tsx     # Live clock in the navbar
+│   ├── GithubStats.tsx      # GitHub calendar + stats cards
+│   └── ProjectModal.tsx     # Screenshot gallery modal
+├── lib/                     # useLocalized hook, skill icon helper
+└── locales/
+    ├── en/translation.json  # English UI strings
+    └── fr/translation.json  # French UI strings
 public/
 └── assets/                  # Images, PDF resume, certificates
 ```
@@ -75,8 +79,8 @@ In `src/data/portfolio.ts`, add an entry to the `PROJECTS` array (experiences go
 
 ```ts
 {
-  title: "My Project",
-  description: "Short description...",
+  title: { fr: "Mon projet", en: "My Project" },
+  description: { fr: "Description courte...", en: "Short description..." },
   image: "assets/my-project.png",
   screenshots: ["assets/my-project.png"],
   technologies: ["React", "TypeScript"],
@@ -92,7 +96,7 @@ Drop the image into `public/assets/` and it will appear in the Projects section.
 
 - **Colors** — edit CSS variables in `src/index.css` under `:root`
 - **Translations** — edit `src/locales/en/translation.json` and `fr/translation.json`
-- **Skills** — update the `skillCategories` array in `App.tsx`
+- **Skills** — update the `SKILL_CATEGORIES` array in `src/data/portfolio.ts` (the stats row counts them automatically)
 - **Resume** — replace `public/assets/CV_Falibeta_Soro.pdf`
 
 ## License

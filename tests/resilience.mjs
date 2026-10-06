@@ -222,6 +222,29 @@ for (const [label, init] of [
   await ctx.close();
 }
 
+// 12. Version anglaise : contenus traduits
+{
+  const { ctx, page } = await newPage({}, () => localStorage.setItem('i18nextLng', 'en'));
+  await page.goto(BASE, { waitUntil: 'networkidle' });
+  const text = await page.evaluate(() => ['experience', 'projects', 'contact'].map(id => document.getElementById(id).innerText).join(' '));
+  const french = ['En cours', 'Reconnaissance faciale', 'Suivi des tickets', 'Ouvre votre messagerie'].filter(w => text.includes(w));
+  record('Version EN : expériences, projets et contact traduits', french.length === 0 && text.includes('Present'), french.join(', '));
+  await ctx.close();
+}
+
+// 13. La modale reste dans l'écran après défilement
+{
+  const { ctx, page } = await newPage();
+  await page.goto(BASE, { waitUntil: 'networkidle' });
+  await page.locator('#projects').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(900);
+  await page.getByRole('button', { name: /Captures|Screenshots/i }).first().click();
+  await page.waitForTimeout(400);
+  const box = await page.locator('[role=dialog]').boundingBox();
+  record('Modale plein écran, alignée sur la fenêtre', !!box && Math.abs(box.y) < 1 && Math.abs(box.height - 900) < 2, box ? `y=${Math.round(box.y)} h=${Math.round(box.height)}` : 'absente');
+  await ctx.close();
+}
+
 await browser.close();
 const ok = results.filter(r => r.pass).length;
 console.log(`\n${ok}/${results.length} tests réussis`);

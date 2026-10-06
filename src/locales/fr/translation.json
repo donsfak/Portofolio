@@ -6,14 +6,18 @@
     "skills": "Compétences",
     "certifications": "Certifications",
     "services": "Services",
-    "contact": "Contact"
+    "contact": "Contact",
+    "menu": "Menu",
+    "lightMode": "Passer en mode clair",
+    "darkMode": "Passer en mode sombre"
   },
   "hero": {
     "role": "Data Scientist Junior",
     "tagline": "Transformer les données en insights · Créer des solutions intelligentes",
     "downloadCv": "Télécharger CV",
     "getInTouch": "Me Contacter",
-    "available": "Disponible"
+    "available": "Disponible",
+    "scrollTop": "Remonter en haut"
   },
   "stats": {
     "experience": "Mois d'Expérience",
@@ -109,12 +113,30 @@
       "sending": "Envoi en cours..."
     },
     "errorDesc": "Une erreur est survenue. Veuillez réessayer ou m'écrire directement.",
-    "privacy": "Votre message est envoyé directement dans ma boîte mail."
+    "privacy": "Votre message est envoyé directement dans ma boîte mail.",
+    "mailtoNote": "⚡ Ouvre votre messagerie · ",
+    "phone": "Téléphone"
   },
   "footer": {
     "description": "Data Scientist & Développeur Full Stack passionné par la transformation des données en insights exploitables.",
     "quickLinks": "Liens Rapides",
     "connect": "Connecter",
-    "rights": "Tous droits réservés."
+    "rights": "Tous droits réservés.",
+    "builtWith": "Construit avec React · TypeScript · Tailwind CSS"
+  },
+  "github": {
+    "title": "Contributions GitHub",
+    "contributionsLastYear": "contributions sur les 12 derniers mois",
+    "followers": "Abonnés",
+    "repos": "Dépôts publics",
+    "commits": "Commits",
+    "stars": "Étoiles",
+    "updated": "Mis à jour le"
+  },
+  "modal": {
+    "close": "Fermer",
+    "previous": "Image précédente",
+    "next": "Image suivante",
+    "image": "Image {{n}}"
   }
 }

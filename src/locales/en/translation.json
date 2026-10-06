@@ -6,14 +6,18 @@
     "skills": "Skills",
     "certifications": "Certifications",
     "services": "Services",
-    "contact": "Contact"
+    "contact": "Contact",
+    "menu": "Menu",
+    "lightMode": "Switch to light mode",
+    "darkMode": "Switch to dark mode"
   },
   "hero": {
     "role": "Data Scientist Junior",
     "tagline": "Transforming data into insights · Building intelligent solutions",
     "downloadCv": "Download CV",
     "getInTouch": "Get In Touch",
-    "available": "Available for work"
+    "available": "Available for work",
+    "scrollTop": "Scroll to top"
   },
   "stats": {
     "experience": "Months Experience",
@@ -109,12 +113,30 @@
       "sending": "Sending..."
     },
     "errorDesc": "Something went wrong. Please try again or email me directly.",
-    "privacy": "Your message is sent directly to my inbox."
+    "privacy": "Your message is sent directly to my inbox.",
+    "mailtoNote": "⚡ Opens your email client · ",
+    "phone": "Phone"
   },
   "footer": {
     "description": "Data Scientist & Full Stack Developer passionate about transforming data into actionable insights.",
     "quickLinks": "Quick Links",
     "connect": "Connect",
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "builtWith": "Built with React · TypeScript · Tailwind CSS"
+  },
+  "github": {
+    "title": "GitHub Contributions",
+    "contributionsLastYear": "contributions in the last year",
+    "followers": "Followers",
+    "repos": "Public Repos",
+    "commits": "Commits",
+    "stars": "Total Stars",
+    "updated": "Updated"
+  },
+  "modal": {
+    "close": "Close",
+    "previous": "Previous image",
+    "next": "Next image",
+    "image": "Image {{n}}"
   }
 }
