@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import emailjs from '@emailjs/browser';
 import {
@@ -12,17 +12,25 @@ import { GithubStats } from './components/GithubStats';
 import { Certifications } from './components/Certifications';
 import { CaseStudyDataTour } from './components/CaseStudyDataTour';
 import { DigitalClock } from './components/DigitalClock';
-
-const CASE_STUDY_DATATOUR = '#/etude-de-cas/data-tour-2026';
-
-interface Project {
-  title: string; description: string; image: string;
-  screenshots?: string[]; technologies: string[]; category: string;
-  github?: string; demo?: string; caseStudy?: string;
-}
+import { CASE_STUDY_DATATOUR, EXPERIENCES, PROJECTS, type Accent } from './data/portfolio';
 
 // Techs whose skillicons.dev icon is an empty SVG — hidden from the icon row
-const NO_ICON_TECHS = new Set(['lightgbm', 'xgboost', 'catboost']);
+const NO_ICON_TECHS = new Set(['lightgbm', 'xgboost', 'catboost', 'arcface', 'faiss']);
+
+// Full class names (not built dynamically) so Tailwind keeps them in the build
+const ACCENT_STYLES: Record<Accent, { dot: string; badge: string; check: string; hover: string; title: string }> = {
+  orange: { dot: 'bg-orange-500 shadow-[0_0_12px_rgba(249,115,22,0.6)]', badge: 'bg-orange-500/10 text-orange-500 border-orange-500/20', check: 'text-orange-500', hover: 'hover:border-orange-500/25', title: 'gradient-text' },
+  purple: { dot: 'bg-purple-500 glow-border',                            badge: 'bg-purple-500/10 text-purple-500 border-purple-500/20', check: 'text-purple-500', hover: 'hover:border-purple-500/25', title: 'gradient-text' },
+  pink:   { dot: 'bg-pink-500 shadow-[0_0_12px_rgba(236,72,153,0.6)]',   badge: 'bg-pink-500/10 text-pink-500 border-pink-500/20',       check: 'text-pink-500',   hover: 'hover:border-pink-500/25',   title: 'gradient-text-blue' },
+};
+
+const readTheme = () => {
+  try {
+    return localStorage.getItem('theme') === 'light' ? 'light' : 'dark';
+  } catch {
+    return 'dark';
+  }
+};
 
 // ─── EmailJS config ────────────────────────────────────────────────────────────
 // Create a free account at emailjs.com, then fill in your IDs below.
@@ -77,9 +85,7 @@ function App() {
   const { t, i18n } = useTranslation();
   const formRef = useRef<HTMLFormElement>(null);
 
-  const [theme, setTheme] = useState(() =>
-    typeof window !== 'undefined' ? localStorage.getItem('theme') || 'dark' : 'dark'
-  );
+  const [theme, setTheme] = useState(readTheme);
   const [isMenuOpen,       setIsMenuOpen]       = useState(false);
   const [activeFilter,     setActiveFilter]     = useState('all');
   const [hoveredSkillCard, setHoveredSkillCard] = useState<string | null>(null);
@@ -96,30 +102,30 @@ function App() {
   const [scrollProgress,   setScrollProgress]   = useState(0);
 
   const [route,         setRoute]         = useState(() => typeof window !== 'undefined' ? window.location.hash : '');
-  const statsRef     = useRef<HTMLDivElement>(null);
-  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const statsRef      = useRef<HTMLDivElement>(null);
+  const prevScrollPos = useRef(0);
   const [navVisible,    setNavVisible]    = useState(true);
 
   // Theme
   useEffect(() => {
     document.documentElement.classList.remove('light', 'dark');
     document.documentElement.classList.add(theme);
-    localStorage.setItem('theme', theme);
+    try { localStorage.setItem('theme', theme); } catch { /* storage blocked */ }
   }, [theme]);
 
-  // Scroll
+  // Scroll — registered once; the previous position lives in a ref
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
-      setNavVisible(prevScrollPos > y || y < 10);
-      setPrevScrollPos(y);
+      setNavVisible(prevScrollPos.current > y || y < 10);
+      prevScrollPos.current = y;
       setShowScrollTop(y > 400);
       const scrollable = document.documentElement.scrollHeight - window.innerHeight;
       setScrollProgress(scrollable > 0 ? (y / scrollable) * 100 : 0);
     };
-    window.addEventListener('scroll', onScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, [prevScrollPos]);
+  }, []);
 
   // Active section
   useEffect(() => {
@@ -193,6 +199,8 @@ function App() {
   const toggleMenu   = () => setIsMenuOpen(v => !v);
   const changeLang   = () => i18n.changeLanguage(i18n.language === 'en' ? 'fr' : 'en');
   const scrollToTop  = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+  const themeLabel   = theme === 'dark' ? 'Mode clair' : 'Mode sombre';
+  const closeModal   = useCallback(() => setIsModalOpen(false), []);
 
   // ── Contact form submit ──────────────────────────────────────────────────────
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -244,13 +252,7 @@ function App() {
     { id: 'design',      titleKey: 'skills.design',      accent: 'pink',   skills: ['figma','rive','ai'] },
   ];
 
-  const projects: Project[] = [
-    { title: 'Détection de Fraude Mobile Money', description: "Champion national du Data Tour 2026 (Côte d'Ivoire) avec l'équipe OUTLIERS. Détection de fraude sur ~1,3 M de transactions : ensemble de 45 modèles de gradient boosting, target encoding out-of-fold et validation par extrapolation temporelle (métrique : PR-AUC).", image: 'assets/case-study/equipe-outliers.webp', technologies: ['Python','LightGBM','XGBoost','CatBoost'], category: 'dataScience', caseStudy: CASE_STUDY_DATATOUR, github: 'https://github.com/donsfak/Portofolio/blob/main/case-studies/data-tour-2026-fraude-mobile-money.md' },
-    { title: 'Weather Insights', description: 'Comprehensive Flutter weather app with real-time forecasts, air quality index, UV index, precipitation data, and smart clothing recommendations. Built with dark mode support and beautiful animations.', image: 'assets/weather.webp', screenshots: ['assets/weather.webp'], technologies: ['Flutter','Firebase','API','ML'], category: 'mobile', github: 'https://github.com/donsfak/weather_insights', demo: 'details' },
-    { title: 'To Do App',        description: 'Feature-rich task management app built with Flutter. Implements local persistence with SQLite, state management with Riverpod, and a clean UX for efficient task tracking.',                             image: 'assets/trackers_1.png', screenshots: ['assets/trackers_1.png','assets/trackers_2.png','assets/trackers_3.png'], technologies: ['Flutter','SQLite','Riverpod'], category: 'mobile', github: 'https://github.com/donsfak/Trackers_app', demo: 'details' },
-  ];
-
-  const filteredProjects = activeFilter === 'all' ? projects : projects.filter(p => p.category === activeFilter);
+  const filteredProjects = activeFilter === 'all' ? PROJECTS : PROJECTS.filter(p => p.category === activeFilter);
 
   const services = [
     { icon: <BarChart3 className="w-9 h-9" />, title: t('services.dataAnalysis.title'), description: t('services.dataAnalysis.description'), color: 'text-purple-500', bg: 'bg-purple-500/10' },
@@ -284,10 +286,10 @@ function App() {
             <span className="text-xl font-black gradient-text tracking-widest">SFAK</span>
 
             <div className="flex items-center gap-1.5 md:hidden">
-              <button onClick={toggleTheme} className="p-2 rounded-lg hover:bg-white/10 transition-colors">
+              <button onClick={toggleTheme} aria-label={themeLabel} className="p-2 rounded-lg hover:bg-white/10 transition-colors">
                 {theme === 'dark' ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5" />}
               </button>
-              <button onClick={toggleMenu} className="p-2 rounded-lg hover:bg-white/10 transition-colors">
+              <button onClick={toggleMenu} aria-label="Menu" aria-expanded={isMenuOpen} className="p-2 rounded-lg hover:bg-white/10 transition-colors">
                 {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
             </div>
@@ -302,8 +304,8 @@ function App() {
                 <Globe className="w-3.5 h-3.5" />
                 {i18n.language.toUpperCase()}
               </button>
-              <button onClick={toggleTheme} className="p-2 rounded-lg hover:bg-white/10 transition-colors">
-                {theme === 'dark' ? <Sun className="w-4.5 h-4.5 text-yellow-400" /> : <Moon className="w-4.5 h-4.5" />}
+              <button onClick={toggleTheme} aria-label={themeLabel} className="p-2 rounded-lg hover:bg-white/10 transition-colors">
+                {theme === 'dark' ? <Sun className="w-[18px] h-[18px] text-yellow-400" /> : <Moon className="w-[18px] h-[18px]" />}
               </button>
               <DigitalClock />
             </div>
@@ -357,7 +359,7 @@ function App() {
 
           {/* Rotating role */}
           <div className="h-10 flex items-center justify-center mb-4 overflow-hidden animate-slide-up" style={{ animationDelay: '0.3s' }}>
-            <p className={`text-lg sm:text-2xl font-semibold text-gray-500 dark:text-gray-400 transition-all duration-350 ${roleFading ? 'opacity-0 -translate-y-3' : 'opacity-100 translate-y-0'}`}>
+            <p className={`text-lg sm:text-2xl font-semibold text-gray-500 dark:text-gray-400 transition-all duration-300 ${roleFading ? 'opacity-0 -translate-y-3' : 'opacity-100 translate-y-0'}`}>
               {ROLES[roleIndex]}
             </p>
           </div>
@@ -369,11 +371,11 @@ function App() {
           {/* Socials */}
           <div className="flex gap-3 justify-center mb-8 animate-slide-up" style={{ animationDelay: '0.55s' }}>
             {[
-              { href: 'https://github.com/donsfak',                              icon: <Github className="w-5 h-5" /> },
-              { href: 'https://www.linkedin.com/in/falibeta-soro-8678b62a1/',   icon: <Linkedin className="w-5 h-5" /> },
-              { href: 'mailto:falibetasoro@gmail.com',                           icon: <Mail className="w-5 h-5" /> },
-            ].map(({ href, icon }) => (
-              <a key={href} href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noreferrer"
+              { href: 'https://github.com/donsfak',                              icon: <Github className="w-5 h-5" />,   label: 'GitHub'   },
+              { href: 'https://www.linkedin.com/in/falibeta-soro-8678b62a1/',   icon: <Linkedin className="w-5 h-5" />, label: 'LinkedIn' },
+              { href: 'mailto:falibetasoro@gmail.com',                           icon: <Mail className="w-5 h-5" />,     label: 'Email'    },
+            ].map(({ href, icon, label }) => (
+              <a key={href} href={href} aria-label={label} target={href.startsWith('http') ? '_blank' : undefined} rel="noreferrer"
                 className="p-2.5 rounded-xl glass hover:bg-purple-500/15 hover:border-purple-500/30 text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-all hover:scale-110">
                 {icon}
               </a>
@@ -382,15 +384,11 @@ function App() {
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-3 justify-center animate-slide-up" style={{ animationDelay: '0.7s' }}>
-            <a href="/assets/CV_Falibeta_Soro.pdf" download="CV_Falibeta_Soro.pdf">
-              <button className="btn-primary">
-                <Download className="w-4 h-4 mr-2" />{t('hero.downloadCv')}
-              </button>
+            <a href="/assets/CV_Falibeta_Soro.pdf" download="CV_Falibeta_Soro.pdf" className="btn-primary">
+              <Download className="w-4 h-4 mr-2" />{t('hero.downloadCv')}
             </a>
-            <a href="#contact">
-              <button className="btn-secondary">
-                <MessageSquare className="w-4 h-4 mr-2" />{t('hero.getInTouch')}
-              </button>
+            <a href="#contact" className="btn-secondary">
+              <MessageSquare className="w-4 h-4 mr-2" />{t('hero.getInTouch')}
             </a>
           </div>
         </div>
@@ -435,7 +433,7 @@ function App() {
             <div className="space-y-3">
               {[
                 { icon: <Award className="w-5 h-5 text-purple-500" />, bg: 'bg-purple-500/10', title: t('about.education'), val: 'Master Mobiquité, Big Data & Systèmes — ESATIC' },
-                { icon: <Briefcase className="w-5 h-5 text-pink-500" />, bg: 'bg-pink-500/10',   title: t('about.currentRole'), val: 'Étudiant en Master' },
+                { icon: <Briefcase className="w-5 h-5 text-pink-500" />, bg: 'bg-pink-500/10',   title: t('about.currentRole'), val: t('about.currentRoleValue') },
                 { icon: <MapPin className="w-5 h-5 text-blue-500" />,    bg: 'bg-blue-500/10',   title: t('about.location'),    val: "Abidjan, Côte d'Ivoire" },
               ].map(({ icon, bg, title, val }) => (
                 <div key={title} className="glass-card flex items-start gap-3">
@@ -469,69 +467,38 @@ function App() {
           <div className="relative max-w-3xl">
             <div className="absolute left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-purple-500 via-pink-500 to-transparent" />
 
-            {/* Huawei */}
-            <div className="relative pl-10 mb-10">
-              <div className="absolute left-0 top-2 w-[15px] h-[15px] rounded-full bg-purple-500 border-2 border-white dark:border-[#080810] glow-border" />
-              <div className="glass rounded-2xl p-5 hover:border-purple-500/25 transition-all">
-                <div className="flex flex-wrap items-start justify-between gap-2 mb-3">
-                  <div>
-                    <h3 className="text-base font-bold gradient-text">GNOC IN VAS Engineer</h3>
-                    <p className="text-xs text-gray-500 mt-0.5 flex items-center gap-1.5"><Briefcase className="w-3 h-3" />Huawei Technologies</p>
+            {EXPERIENCES.map((exp, i) => {
+              const a = ACCENT_STYLES[exp.accent];
+              const Icon = exp.kind === 'work' ? Briefcase : Award;
+              return (
+                <div key={exp.role} className={`relative pl-10 ${i < EXPERIENCES.length - 1 ? 'mb-10' : ''}`}>
+                  <div className={`absolute left-0 top-2 w-[15px] h-[15px] rounded-full border-2 border-white dark:border-[#080810] ${a.dot}`} />
+                  <div className={`glass rounded-2xl p-5 transition-all ${a.hover}`}>
+                    <div className="flex flex-wrap items-start justify-between gap-2 mb-3">
+                      <div>
+                        <h3 className={`text-base font-bold ${a.title}`}>{exp.role}</h3>
+                        <p className="text-xs text-gray-500 mt-0.5 flex items-center gap-1.5"><Icon className="w-3 h-3" />{exp.organization}</p>
+                      </div>
+                      <span className={`px-2.5 py-1 rounded-full text-xs font-semibold border whitespace-nowrap ${a.badge}`}>
+                        {exp.period}
+                      </span>
+                    </div>
+                    <ul className="space-y-2 mb-4">
+                      {exp.bullets.map(item => (
+                        <li key={item} className="flex items-start gap-2 text-xs text-gray-600 dark:text-gray-400">
+                          <CheckCircle2 className={`w-3.5 h-3.5 mt-0.5 flex-shrink-0 ${a.check}`} />{item}
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="flex flex-wrap gap-1.5">
+                      {exp.tags.map(tag => (
+                        <span key={tag} className="px-2 py-0.5 text-[11px] rounded-md bg-white/60 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 font-medium">{tag}</span>
+                      ))}
+                    </div>
                   </div>
-                  <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-500 border border-purple-500/20 whitespace-nowrap">
-                    Juil. – Déc. 2024
-                  </span>
                 </div>
-                <ul className="space-y-2 mb-4">
-                  {[
-                    'Suivi des tickets et gestion des incidents pour assurer la continuité des services',
-                    'Gestion proactive des plaintes clients avec résolution rapide et efficace',
-                    'Supervision et maintenance des plateformes AMEA du Groupe Orange',
-                  ].map(item => (
-                    <li key={item} className="flex items-start gap-2 text-xs text-gray-600 dark:text-gray-400">
-                      <CheckCircle2 className="w-3.5 h-3.5 mt-0.5 text-purple-500 flex-shrink-0" />{item}
-                    </li>
-                  ))}
-                </ul>
-                <div className="flex flex-wrap gap-1.5">
-                  {['Python','SQL','Excel','ITIL','Linux','Monitoring'].map(t => (
-                    <span key={t} className="px-2 py-0.5 text-[11px] rounded-md bg-white/60 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 font-medium">{t}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Education */}
-            <div className="relative pl-10">
-              <div className="absolute left-0 top-2 w-[15px] h-[15px] rounded-full bg-pink-500 border-2 border-white dark:border-[#080810] shadow-[0_0_12px_rgba(236,72,153,0.6)]" />
-              <div className="glass rounded-2xl p-5 hover:border-pink-500/25 transition-all">
-                <div className="flex flex-wrap items-start justify-between gap-2 mb-3">
-                  <div>
-                    <h3 className="text-base font-bold gradient-text-blue">Master Mobiquité, Big Data & Systèmes</h3>
-                    <p className="text-xs text-gray-500 mt-0.5 flex items-center gap-1.5"><Award className="w-3 h-3" />ESATIC × Université Côte d'Azur</p>
-                  </div>
-                  <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-pink-500/10 text-pink-500 border border-pink-500/20 whitespace-nowrap">
-                    2024 – En cours
-                  </span>
-                </div>
-                <ul className="space-y-2 mb-4">
-                  {[
-                    'Machine Learning & Intelligence Artificielle',
-                    'Big Data : Hadoop,architectures distribuées',
-                    'Développement web et systèmes embarqués',
-                  ].map(item => (
-                    <li key={item} className="flex items-start gap-2 text-xs text-gray-600 dark:text-gray-400">
-                      <CheckCircle2 className="w-3.5 h-3.5 mt-0.5 text-pink-500 flex-shrink-0" />{item}
-                    </li>
-                  ))}
-                </ul>
-                <div className="flex flex-wrap gap-1.5">
-                  {['Machine Learning','Big Data','Flutter','Python','R','Spark'].map(t => (
-                    <span key={t} className="px-2 py-0.5 text-[11px] rounded-md bg-white/60 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 font-medium">{t}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
+              );
+            })}
           </div>
         </section>
 
@@ -552,8 +519,8 @@ function App() {
           </div>
 
           <div className="grid sm:grid-cols-2 gap-6">
-            {filteredProjects.map((project, i) => (
-              <div key={i} className="group relative bg-white dark:bg-white/[0.03] rounded-2xl overflow-hidden border border-gray-200 dark:border-white/[0.07] hover:border-purple-500/40 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(147,51,234,0.15)] md:hover:-translate-y-1.5 flex flex-col">
+            {filteredProjects.map(project => (
+              <div key={project.title} className="group relative bg-white dark:bg-white/[0.03] rounded-2xl overflow-hidden border border-gray-200 dark:border-white/[0.07] hover:border-purple-500/40 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(147,51,234,0.15)] md:hover:-translate-y-1.5 flex flex-col">
                 {/* Category badge */}
                 <div className="absolute top-3 left-3 z-10">
                   <span className="px-2.5 py-0.5 text-[11px] font-bold rounded-full bg-black/60 text-white backdrop-blur-sm">
@@ -610,7 +577,7 @@ function App() {
 
         {/* GitHub Stats */}
         <GithubStats />
-        <ProjectModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} project={selectedProject} />
+        <ProjectModal isOpen={isModalOpen} onClose={closeModal} project={selectedProject} />
 
         {/* ── Skills ─────────────────────────────────────────────────────── */}
         <section id="skills" className="reveal section-container border-t border-gray-100 dark:border-white/[0.05] bg-white/40 dark:bg-white/[0.015]">
@@ -637,8 +604,8 @@ function App() {
             <h2 className="text-3xl md:text-4xl font-bold">{t('services.title')}</h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {services.map((s, i) => (
-              <div key={i} className="service-card group p-5">
+            {services.map(s => (
+              <div key={s.title} className="service-card group p-5">
                 <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-purple-500/[0.07] to-transparent rounded-bl-3xl" />
                 <span className={`service-icon inline-flex p-2.5 rounded-xl ${s.bg} ${s.color}`}>{s.icon}</span>
                 <h3 className="text-sm font-bold mb-2 mt-3">{s.title}</h3>
@@ -706,21 +673,21 @@ function App() {
                   className="absolute opacity-0 -z-10 h-0 w-0 pointer-events-none" />
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="form-label">{t('contact.form.name')}</label>
-                    <input type="text" name="from_name" className="form-input" placeholder="John Doe" maxLength={100} required />
+                    <label htmlFor="cf-name" className="form-label">{t('contact.form.name')}</label>
+                    <input type="text" id="cf-name" name="from_name" className="form-input" placeholder="John Doe" maxLength={100} required />
                   </div>
                   <div>
-                    <label className="form-label">{t('contact.form.email')}</label>
-                    <input type="email" name="from_email" className="form-input" placeholder="john@email.com" maxLength={150} required />
+                    <label htmlFor="cf-email" className="form-label">{t('contact.form.email')}</label>
+                    <input type="email" id="cf-email" name="from_email" className="form-input" placeholder="john@email.com" maxLength={150} required />
                   </div>
                 </div>
                 <div>
-                  <label className="form-label">{t('contact.form.subject')}</label>
-                  <input type="text" name="subject" className="form-input" placeholder={t('contact.form.subjectPlaceholder')} maxLength={150} required />
+                  <label htmlFor="cf-subject" className="form-label">{t('contact.form.subject')}</label>
+                  <input type="text" id="cf-subject" name="subject" className="form-input" placeholder={t('contact.form.subjectPlaceholder')} maxLength={150} required />
                 </div>
                 <div>
-                  <label className="form-label">{t('contact.form.message')}</label>
-                  <textarea name="message" className="form-textarea" rows={5} placeholder={t('contact.form.messagePlaceholder')} maxLength={3000} required />
+                  <label htmlFor="cf-message" className="form-label">{t('contact.form.message')}</label>
+                  <textarea id="cf-message" name="message" className="form-textarea" rows={5} placeholder={t('contact.form.messagePlaceholder')} maxLength={3000} required />
                 </div>
                 {formState === 'error' && (
                   <div className="flex items-center gap-2 p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-xs text-red-400">
@@ -750,11 +717,11 @@ function App() {
           <p className="text-xs text-gray-400 mb-6">Soro Falibeta</p>
           <div className="flex gap-4 mb-6">
             {[
-              { href: 'https://github.com/donsfak',                             icon: <Github className="w-5 h-5" />   },
-              { href: 'https://www.linkedin.com/in/falibeta-soro-8678b62a1/', icon: <Linkedin className="w-5 h-5" /> },
-              { href: 'mailto:falibetasoro@gmail.com',                          icon: <Mail className="w-5 h-5" />    },
-            ].map(({ href, icon }) => (
-              <a key={href} href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noreferrer"
+              { href: 'https://github.com/donsfak',                             icon: <Github className="w-5 h-5" />,   label: 'GitHub'   },
+              { href: 'https://www.linkedin.com/in/falibeta-soro-8678b62a1/', icon: <Linkedin className="w-5 h-5" />, label: 'LinkedIn' },
+              { href: 'mailto:falibetasoro@gmail.com',                          icon: <Mail className="w-5 h-5" />,     label: 'Email'    },
+            ].map(({ href, icon, label }) => (
+              <a key={href} href={href} aria-label={label} target={href.startsWith('http') ? '_blank' : undefined} rel="noreferrer"
                 className="p-2 rounded-lg glass hover:bg-purple-500/10 text-gray-400 hover:text-purple-500 transition-all hover:scale-110">
                 {icon}
               </a>

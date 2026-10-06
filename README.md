@@ -52,22 +52,26 @@ npm run preview
 src/
 ├── App.tsx                  # Main page layout & all sections
 ├── index.css                # Global styles & utility classes
-├── i18n.ts                  # i18next setup
+├── i18n.ts                  # i18next setup (translations bundled)
 ├── main.tsx                 # React entry point
+├── data/
+│   └── portfolio.ts         # Projects & experience timeline
+├── locales/
+│   ├── en/translation.json  # English strings
+│   └── fr/translation.json  # French strings
 └── components/
+    ├── CaseStudyDataTour.tsx # Data Tour 2026 case study page
+    ├── Certifications.tsx   # Certificates grid
     ├── DigitalClock.tsx     # Live clock in the navbar
     ├── GithubStats.tsx      # GitHub calendar + stats cards
     └── ProjectModal.tsx     # Screenshot gallery modal
 public/
-├── assets/                  # Images, PDF resume
-└── locales/
-    ├── en/translation.json  # English strings
-    └── fr/translation.json  # French strings
+└── assets/                  # Images, PDF resume, certificates
 ```
 
 ## Adding a Project
 
-In `src/App.tsx`, add an entry to the `projects` array:
+In `src/data/portfolio.ts`, add an entry to the `PROJECTS` array (experiences go in `EXPERIENCES`):
 
 ```ts
 {
@@ -87,10 +91,22 @@ Drop the image into `public/assets/` and it will appear in the Projects section.
 ## Customisation
 
 - **Colors** — edit CSS variables in `src/index.css` under `:root`
-- **Translations** — edit `public/locales/en/translation.json` and `fr/translation.json`
+- **Translations** — edit `src/locales/en/translation.json` and `fr/translation.json`
 - **Skills** — update the `skillCategories` array in `App.tsx`
-- **Resume** — replace `public/assets/data analyste junior.pdf`
+- **Resume** — replace `public/assets/CV_Falibeta_Soro.pdf`
 
 ## License
 
 MIT © 2025 Soro Falibeta
+
+## Resilience tests
+
+`tests/resilience.mjs` runs 26 browser scenarios against the production build: third-party
+APIs down, GitHub rate-limit, slow 3G, corrupted localStorage, XSS payloads in the form and
+URL hash, interaction stress + memory, mobile overflow and basic accessibility.
+
+```bash
+npx playwright-core install chromium   # once
+npm run build && npm run preview -- --port 4173
+npm run test:resilience                # in another terminal
+```

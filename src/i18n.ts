@@ -1,22 +1,22 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import Backend from 'i18next-http-backend';
+import fr from './locales/fr/translation.json';
+import en from './locales/en/translation.json';
 
+// Translations are bundled: no extra request, and no raw keys if a fetch fails.
 i18n
-  .use(Backend)
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    fallbackLng: 'fr',
-    lng: 'fr', // Set French as default
+    resources: { fr: { translation: fr }, en: { translation: en } },
+    fallbackLng: 'fr', // French unless the visitor already picked English
+    supportedLngs: ['fr', 'en'],
+    detection: { order: ['localStorage'], caches: ['localStorage'] },
     debug: import.meta.env.DEV,
     interpolation: {
       escapeValue: false,
     },
-    backend: {
-      loadPath: '/locales/{{lng}}/{{ns}}.json',
-    }
   });
 
 export default i18n;

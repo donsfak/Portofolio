@@ -35,12 +35,18 @@ const LANGUAGE_COLORS: Record<string, string> = {
   Swift: '#F05138',
 };
 
-async function fetchGithubData(): Promise<GithubData> {
-  const cached = sessionStorage.getItem(CACHE_KEY);
-  if (cached) {
-    const { data, timestamp } = JSON.parse(cached);
-    if (Date.now() - timestamp < CACHE_TTL) return data;
+function readCache(): { data: GithubData; timestamp: number } | null {
+  try {
+    const cached = localStorage.getItem(CACHE_KEY);
+    return cached ? JSON.parse(cached) : null;
+  } catch {
+    return null;
   }
+}
+
+async function fetchGithubData(): Promise<GithubData> {
+  const cached = readCache();
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) return cached.data;
 
   // The search endpoint fails independently (stricter rate limit, flaky CORS
   // headers) — it must never take the other stats down with it.
@@ -50,7 +56,11 @@ async function fetchGithubData(): Promise<GithubData> {
     fetch(`https://api.github.com/search/commits?q=author:${GITHUB_USERNAME}&per_page=1`).catch(() => null),
   ]);
 
-  if (!userRes.ok || !reposRes.ok) throw new Error('GitHub API request failed');
+  // Rate-limited (60 req/h per IP, easy to hit on a shared network): show the last known stats
+  if (!userRes.ok || !reposRes.ok) {
+    if (cached) return cached.data;
+    throw new Error('GitHub API request failed');
+  }
 
   const user = await userRes.json();
   const repos: RepoInfo[] = await reposRes.json();
@@ -71,7 +81,9 @@ async function fetchGithubData(): Promise<GithubData> {
     })),
   };
 
-  sessionStorage.setItem(CACHE_KEY, JSON.stringify({ data, timestamp: Date.now() }));
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({ data, timestamp: Date.now() }));
+  } catch { /* storage full or blocked */ }
   return data;
 }
 
