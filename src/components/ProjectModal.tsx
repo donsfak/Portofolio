@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 interface ProjectModalProps {
   isOpen: boolean;
@@ -12,19 +13,20 @@ interface ProjectModalProps {
 }
 
 export function ProjectModal({ isOpen, onClose, project }: ProjectModalProps) {
+  const { t } = useTranslation();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-      setCurrentImageIndex(0);
-    } else {
-      document.body.style.overflow = 'unset';
-    }
+    if (!isOpen) return;
+    document.body.style.overflow = 'hidden';
+    setCurrentImageIndex(0);
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKey);
     };
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   if (!isOpen || !project) return null;
 
@@ -43,7 +45,7 @@ export function ProjectModal({ isOpen, onClose, project }: ProjectModalProps) {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8">
+        <div role="dialog" aria-modal="true" aria-label={project.title} className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -65,6 +67,7 @@ export function ProjectModal({ isOpen, onClose, project }: ProjectModalProps) {
               <h3 className="text-xl font-bold text-white">{project.title}</h3>
               <button
                 onClick={onClose}
+                aria-label={t('modal.close')}
                 className="p-2 text-gray-400 hover:text-white transition-colors rounded-full hover:bg-white/10"
               >
                 <X className="w-6 h-6" />
@@ -91,12 +94,14 @@ export function ProjectModal({ isOpen, onClose, project }: ProjectModalProps) {
                 <>
                   <button
                     onClick={(e) => { e.stopPropagation(); prevImage(); }}
+                    aria-label={t('modal.previous')}
                     className="absolute left-4 p-3 rounded-full bg-black/50 text-white hover:bg-white/20 transition-all backdrop-blur-sm"
                   >
                     <ChevronLeft className="w-6 h-6" />
                   </button>
                   <button
                     onClick={(e) => { e.stopPropagation(); nextImage(); }}
+                    aria-label={t('modal.next')}
                     className="absolute right-4 p-3 rounded-full bg-black/50 text-white hover:bg-white/20 transition-all backdrop-blur-sm"
                   >
                     <ChevronRight className="w-6 h-6" />
@@ -112,6 +117,7 @@ export function ProjectModal({ isOpen, onClose, project }: ProjectModalProps) {
                   <button
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
+                    aria-label={t('modal.image', { n: index + 1 })}
                     className={`relative w-16 h-12 rounded-lg overflow-hidden border-2 transition-all ${
                       currentImageIndex === index ? 'border-purple-500 opacity-100' : 'border-transparent opacity-50 hover:opacity-100'
                     }`}

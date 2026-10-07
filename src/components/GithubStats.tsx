@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { GitHubCalendar } from 'react-github-calendar';
+import { useTranslation } from 'react-i18next';
 import { Github, Users, Star, GitCommit, FolderGit2, ExternalLink } from 'lucide-react';
 
 const GITHUB_USERNAME = 'donsfak';
@@ -35,12 +36,18 @@ const LANGUAGE_COLORS: Record<string, string> = {
   Swift: '#F05138',
 };
 
-async function fetchGithubData(): Promise<GithubData> {
-  const cached = sessionStorage.getItem(CACHE_KEY);
-  if (cached) {
-    const { data, timestamp } = JSON.parse(cached);
-    if (Date.now() - timestamp < CACHE_TTL) return data;
+function readCache(): { data: GithubData; timestamp: number } | null {
+  try {
+    const cached = localStorage.getItem(CACHE_KEY);
+    return cached ? JSON.parse(cached) : null;
+  } catch {
+    return null;
   }
+}
+
+async function fetchGithubData(): Promise<GithubData> {
+  const cached = readCache();
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) return cached.data;
 
   // The search endpoint fails independently (stricter rate limit, flaky CORS
   // headers) — it must never take the other stats down with it.
@@ -50,7 +57,11 @@ async function fetchGithubData(): Promise<GithubData> {
     fetch(`https://api.github.com/search/commits?q=author:${GITHUB_USERNAME}&per_page=1`).catch(() => null),
   ]);
 
-  if (!userRes.ok || !reposRes.ok) throw new Error('GitHub API request failed');
+  // Rate-limited (60 req/h per IP, easy to hit on a shared network): show the last known stats
+  if (!userRes.ok || !reposRes.ok) {
+    if (cached) return cached.data;
+    throw new Error('GitHub API request failed');
+  }
 
   const user = await userRes.json();
   const repos: RepoInfo[] = await reposRes.json();
@@ -71,11 +82,14 @@ async function fetchGithubData(): Promise<GithubData> {
     })),
   };
 
-  sessionStorage.setItem(CACHE_KEY, JSON.stringify({ data, timestamp: Date.now() }));
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({ data, timestamp: Date.now() }));
+  } catch { /* storage full or blocked */ }
   return data;
 }
 
 export function GithubStats() {
+  const { t, i18n } = useTranslation();
   const [data, setData] = useState<GithubData | null>(null);
 
   useEffect(() => {
@@ -89,7 +103,7 @@ export function GithubStats() {
       <div className="flex items-center gap-4 mb-12 justify-center">
         <Github className="w-8 h-8 text-cyan-400" />
         <h2 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-500">
-          GitHub Contributions
+          {t('github.title')}
         </h2>
       </div>
 
@@ -102,7 +116,7 @@ export function GithubStats() {
               dark: ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353'],
             }}
             labels={{
-              totalCount: '{{count}} contributions in the last year',
+              totalCount: `{{count}} ${t('github.contributionsLastYear')}`,
             }}
           />
         </div>
@@ -112,22 +126,22 @@ export function GithubStats() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
               <StatsCard
                 icon={<Users className="w-5 h-5 text-purple-400" />}
-                label="Followers"
+                label={t('github.followers')}
                 value={data.followers}
               />
               <StatsCard
                 icon={<FolderGit2 className="w-5 h-5 text-pink-400" />}
-                label="Public Repos"
+                label={t('github.repos')}
                 value={data.publicRepos}
               />
               <StatsCard
                 icon={<GitCommit className="w-5 h-5 text-cyan-400" />}
-                label="Commits"
+                label={t('github.commits')}
                 value={data.totalCommits >= 500 ? '500+' : data.totalCommits || '—'}
               />
               <StatsCard
                 icon={<Star className="w-5 h-5 text-yellow-400" />}
-                label="Total Stars"
+                label={t('github.stars')}
                 value={data.totalStars}
               />
             </div>
@@ -167,7 +181,7 @@ export function GithubStats() {
                       </span>
                     )}
                     <span className="ml-auto">
-                      Updated {new Date(repo.pushed_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                      {t('github.updated')} {new Date(repo.pushed_at).toLocaleDateString(i18n.language === 'en' ? 'en-US' : 'fr-FR', { month: 'short', day: 'numeric' })}
                     </span>
                   </div>
                 </a>

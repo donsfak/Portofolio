@@ -6,14 +6,18 @@
     "skills": "Compétences",
     "certifications": "Certifications",
     "services": "Services",
-    "contact": "Contact"
+    "contact": "Contact",
+    "menu": "Menu",
+    "lightMode": "Passer en mode clair",
+    "darkMode": "Passer en mode sombre"
   },
   "hero": {
     "role": "Data Scientist Junior",
     "tagline": "Transformer les données en insights · Créer des solutions intelligentes",
     "downloadCv": "Télécharger CV",
     "getInTouch": "Me Contacter",
-    "available": "Disponible"
+    "available": "Disponible",
+    "scrollTop": "Remonter en haut"
   },
   "stats": {
     "experience": "Mois d'Expérience",
@@ -23,9 +27,10 @@
   "about": {
     "title": "À Propos de Moi",
     "description1": "Actuellement étudiant en Master Mobiquité, Big Data et Systèmes à l'ESATIC (en partenariat avec l'Université Côte d'Azur), je souhaite mettre à profit les compétences développées lors de mon diplôme en informatique et consolidées durant un stage de six mois en analyse de données.",
-    "description2": "Fort de cette première expérience en manipulation de données, analyse statistique et visualisation, je suis déterminé à relever de nouveaux défis et à contribuer au succès d'une équipe data innovante.",
+    "description2": "Je poursuis actuellement un parcours en intelligence artificielle à l'Orange Digital Center, où je travaille sur des projets IA / Machine Learning. Parmi mes réalisations récentes : FaceGuard, un système de reconnaissance faciale en temps réel (ArcFace, FAISS, FastAPI). Je suis déterminé à relever de nouveaux défis et à contribuer au succès d'une équipe data innovante.",
     "education": "Formation",
     "currentRole": "Statut Actuel",
+    "currentRoleValue": "Apprenant IA — Orange Digital Center",
     "location": "Localisation",
     "available": "Ouvert aux opportunités",
     "availableDesc": "À la recherche de stages et postes juniors"
@@ -108,12 +113,30 @@
       "sending": "Envoi en cours..."
     },
     "errorDesc": "Une erreur est survenue. Veuillez réessayer ou m'écrire directement.",
-    "privacy": "Votre message est envoyé directement dans ma boîte mail."
+    "privacy": "Votre message est envoyé directement dans ma boîte mail.",
+    "mailtoNote": "⚡ Ouvre votre messagerie · ",
+    "phone": "Téléphone"
   },
   "footer": {
     "description": "Data Scientist & Développeur Full Stack passionné par la transformation des données en insights exploitables.",
     "quickLinks": "Liens Rapides",
     "connect": "Connecter",
-    "rights": "Tous droits réservés."
+    "rights": "Tous droits réservés.",
+    "builtWith": "Construit avec React · TypeScript · Tailwind CSS"
+  },
+  "github": {
+    "title": "Contributions GitHub",
+    "contributionsLastYear": "contributions sur les 12 derniers mois",
+    "followers": "Abonnés",
+    "repos": "Dépôts publics",
+    "commits": "Commits",
+    "stars": "Étoiles",
+    "updated": "Mis à jour le"
+  },
+  "modal": {
+    "close": "Fermer",
+    "previous": "Image précédente",
+    "next": "Image suivante",
+    "image": "Image {{n}}"
   }
 }
