@@ -4,7 +4,7 @@ Personal portfolio website built with React, TypeScript, and Tailwind CSS. Featu
 
 ## Live Demo
 
-[soro-falibeta-portofolio.vercel.app](https://soro-falibeta-portofolio.vercel.app) — deployed on Vercel
+[falibeta-soro-portofolio.vercel.app](https://falibeta-soro-portofolio.vercel.app/) — deployed on Vercel
 
 ## Tech Stack
 
