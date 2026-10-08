@@ -1,6 +1,24 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 @layer base {
   :root {
@@ -28,7 +46,7 @@
 
   /* Visible keyboard focus without affecting mouse users */
   :focus-visible {
-    @apply outline-none ring-2 ring-purple-500/70 ring-offset-2 ring-offset-gray-50 dark:ring-offset-[#080810] rounded-md;
+    @apply outline-hidden ring-2 ring-purple-500/70 ring-offset-2 ring-offset-gray-50 dark:ring-offset-[#080810] rounded-md;
   }
 
   /* Custom scrollbar */
@@ -51,11 +69,11 @@
 
 /* ── Glassmorphism ─────────────────────────────────────────────────────────── */
 .glass {
-  @apply bg-white/60 dark:bg-white/[0.04] backdrop-blur-xl border border-white/50 dark:border-white/[0.08];
+  @apply bg-white/60 dark:bg-white/4 backdrop-blur-xl border border-white/50 dark:border-white/8;
 }
 
 .glass-card {
-  @apply glass rounded-2xl p-5 transition-all duration-300 hover:bg-white/80 dark:hover:bg-white/[0.07] hover:border-purple-500/20;
+  @apply bg-white/60 dark:bg-white/4 backdrop-blur-xl border border-white/50 dark:border-white/8 rounded-2xl p-5 transition-all duration-300 hover:bg-white/80 dark:hover:bg-white/[0.07] hover:border-purple-500/20;
 }
 
 /* ── Sections ──────────────────────────────────────────────────────────────── */
@@ -80,7 +98,7 @@
 .nav-link::after {
   content: "";
   @apply absolute left-0 -bottom-0.5 w-0 h-0.5
-         bg-gradient-to-r from-purple-600 to-pink-500 transition-all duration-300;
+         bg-linear-to-r from-purple-600 to-pink-500 transition-all duration-300;
 }
 
 .nav-link:hover::after,
@@ -120,11 +138,13 @@
 
 /* ── Stats ─────────────────────────────────────────────────────────────────── */
 .stat-card {
-  @apply glass-card text-center transition-all duration-300 hover:scale-[1.03];
+  /* Tailwind 4: @apply can't reuse custom classes, so .glass-card is spelled out */
+  @apply bg-white/60 dark:bg-white/4 backdrop-blur-xl border border-white/50 dark:border-white/8 rounded-2xl p-5 transition-all duration-300 hover:bg-white/80 dark:hover:bg-white/[0.07] hover:border-purple-500/20 text-center hover:scale-[1.03];
 }
 
 .stat-number {
-  @apply text-4xl md:text-5xl font-bold gradient-text mb-1;
+  @apply text-4xl md:text-5xl font-bold mb-1 bg-clip-text text-transparent;
+  background-image: linear-gradient(135deg, rgb(147 51 234) 0%, rgb(236 72 153) 100%);
 }
 
 .stat-label {
@@ -147,7 +167,7 @@
 
 /* ── Service Cards ─────────────────────────────────────────────────────────── */
 .service-card {
-  @apply glass-card cursor-default overflow-hidden relative;
+  @apply bg-white/60 dark:bg-white/4 backdrop-blur-xl border border-white/50 dark:border-white/8 rounded-2xl p-5 transition-all duration-300 hover:bg-white/80 dark:hover:bg-white/[0.07] hover:border-purple-500/20 cursor-default overflow-hidden relative;
 }
 
 .service-card:hover {
@@ -163,16 +183,17 @@
 }
 
 /* ── Contact Form ──────────────────────────────────────────────────────────── */
-.form-input {
+.form-input,
+.form-textarea {
   @apply w-full px-4 py-3 rounded-xl text-sm
-         bg-white/70 dark:bg-white/[0.04]
-         border border-gray-200 dark:border-white/[0.08]
+         bg-white/70 dark:bg-white/4
+         border border-gray-200 dark:border-white/8
          text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600
-         focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50
+         focus:outline-hidden focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50
          transition-all duration-200;
 }
 
-.form-textarea { @apply form-input resize-none; }
+.form-textarea { @apply resize-none; }
 
 .form-label {
   @apply block text-xs font-semibold uppercase tracking-wider
@@ -185,11 +206,11 @@
 }
 
 .filter-btn-active {
-  @apply bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-lg shadow-purple-500/25;
+  @apply bg-linear-to-r from-purple-600 to-pink-500 text-white shadow-lg shadow-purple-500/25;
 }
 
 .filter-btn-inactive {
-  @apply glass text-gray-600 dark:text-gray-400 hover:bg-white/80 dark:hover:bg-white/10;
+  @apply bg-white/60 dark:bg-white/4 backdrop-blur-xl border border-white/50 dark:border-white/8 text-gray-600 dark:text-gray-400 hover:bg-white/80 dark:hover:bg-white/10;
 }
 
 /* ── Scroll to top ─────────────────────────────────────────────────────────── */
@@ -273,7 +294,7 @@
 
 /* ── Scroll progress bar ─────────────────────────────────────────────────────── */
 .scroll-progress {
-  @apply fixed top-0 left-0 h-[3px] z-[60] pointer-events-none;
+  @apply fixed top-0 left-0 h-[3px] z-60 pointer-events-none;
   background: linear-gradient(90deg, rgb(147 51 234), rgb(236 72 153), rgb(59 130 246));
   transition: width 0.1s linear;
 }
@@ -295,7 +316,7 @@
 
 /* ── Dark mode fine-tuning ───────────────────────────────────────────────────── */
 .dark .glass {
-  @apply bg-white/[0.04] border-white/[0.08];
+  @apply bg-white/4 border-white/8;
 }
 
 /* ── Responsive ──────────────────────────────────────────────────────────────── */
