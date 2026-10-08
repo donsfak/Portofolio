@@ -11,8 +11,8 @@ Personal portfolio website built with React, TypeScript, and Tailwind CSS. Featu
 | Layer | Tools |
 |---|---|
 | Framework | React 18 + TypeScript |
-| Styling | Tailwind CSS v3 |
-| Build | Vite 5 |
+| Styling | Tailwind CSS v4 |
+| Build | Vite 8 (Node ≥ 20.19, see `.nvmrc`) |
 | i18n | i18next (EN / FR) |
 | Animations | Framer Motion (modal), CSS animations |
 | Icons | Lucide React |
@@ -33,6 +33,9 @@ Personal portfolio website built with React, TypeScript, and Tailwind CSS. Featu
 ## Getting Started
 
 ```bash
+# Node 20.19+ required (nvm users: `nvm use`)
+nvm use
+
 # Install dependencies
 npm install
 
@@ -94,7 +97,7 @@ Drop the image into `public/assets/` and it will appear in the Projects section.
 
 ## Customisation
 
-- **Colors** — edit CSS variables in `src/index.css` under `:root`
+- **Colors & styles** — edit `src/index.css` (Tailwind v4: no `tailwind.config.js`, configuration lives in CSS)
 - **Translations** — edit `src/locales/en/translation.json` and `fr/translation.json`
 - **Skills** — update the `SKILL_CATEGORIES` array in `src/data/portfolio.ts` (the stats row counts them automatically)
 - **Resume** — replace `public/assets/CV_Falibeta_Soro.pdf`

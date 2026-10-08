@@ -229,6 +229,11 @@ for (const [label, init] of [
   const text = await page.evaluate(() => ['experience', 'projects', 'contact'].map(id => document.getElementById(id).innerText).join(' '));
   const french = ['En cours', 'Reconnaissance faciale', 'Suivi des tickets', 'Ouvre votre messagerie'].filter(w => text.includes(w));
   record('Version EN : expériences, projets et contact traduits', french.length === 0 && text.includes('Present'), french.join(', '));
+  await page.evaluate(() => { window.location.hash = '#/etude-de-cas/data-tour-2026'; });
+  await page.waitForTimeout(500);
+  const cs = await page.evaluate(() => document.body.innerText);
+  const csFrench = ['Retour au portfolio', 'Décisions techniques', 'Ce que j'].filter(w => cs.includes(w));
+  record('Version EN : étude de cas traduite', csFrench.length === 0 && cs.includes('Key technical decisions'), csFrench.join(', '));
   await ctx.close();
 }
 

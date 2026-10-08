@@ -52,7 +52,7 @@ export function Hero() {
 
         {/* Rotating role */}
         <div className="h-10 flex items-center justify-center mb-4 overflow-hidden animate-slide-up" style={{ animationDelay: '0.3s' }}>
-          <p className={`text-lg sm:text-2xl font-semibold text-gray-500 dark:text-gray-400 transition-all duration-300 ${roleFading ? 'opacity-0 -translate-y-3' : 'opacity-100 translate-y-0'}`}>
+          <p className={`text-base sm:text-2xl font-semibold text-gray-500 dark:text-gray-400 transition-all duration-300 ${roleFading ? 'opacity-0 -translate-y-3' : 'opacity-100 translate-y-0'}`}>
             {l(ROLES[roleIndex])}
           </p>
         </div>

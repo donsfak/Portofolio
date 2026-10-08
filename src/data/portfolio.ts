@@ -19,9 +19,7 @@ export const EXPERIENCE_MONTHS = 6;
 
 export const ROLES: Localized[] = [
   { fr: 'Data Scientist Junior', en: 'Junior Data Scientist' },
-  { fr: 'Apprenant IA · Orange Digital Center', en: 'AI Learner · Orange Digital Center' },
-  { fr: 'Développeur Full Stack', en: 'Full Stack Developer' },
-  { fr: 'Développeur Mobile', en: 'Mobile Developer' },
+  { fr: 'Apprenant IA & Machine Learning · ODC', en: 'AI & Machine Learning Learner · ODC' },
 ];
 
 export interface Project {
@@ -44,16 +42,16 @@ export interface Experience {
 
 export const EXPERIENCES: Experience[] = [
   {
-    role: { fr: 'Apprenant en Intelligence Artificielle', en: 'Artificial Intelligence Learner' },
+    role: { fr: 'Apprenant en IA & Machine Learning', en: 'AI & Machine Learning Learner' },
     organization: 'Orange Digital Center · Abidjan',
     period: { fr: 'Juillet 2026 – En cours', en: 'July 2026 – Present' },
     kind: 'education',
     accent: 'orange',
     bullets: [
-      { fr: 'Programme de formation en Intelligence Artificielle et Machine Learning', en: 'Training program in Artificial Intelligence and Machine Learning' },
+      { fr: 'Formation en Intelligence Artificielle & Machine Learning', en: 'Training program in Artificial Intelligence & Machine Learning' },
       { fr: 'Réalisation de projets IA / ML appliqués, de la préparation des données à l’évaluation des modèles', en: 'Applied AI / ML projects, from data preparation to model evaluation' },
     ],
-    tags: ['Python', 'Machine Learning', 'IA', 'Computer Vision'],
+    tags: ['Python', 'Machine Learning', 'Computer Vision'],
   },
   {
     role: { fr: 'GNOC IN VAS Engineer', en: 'GNOC IN VAS Engineer' },
