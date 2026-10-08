@@ -105,7 +105,7 @@ export const PROJECTS: Project[] = [
     technologies: ['Python', 'LightGBM', 'XGBoost', 'CatBoost'],
     category: 'dataScience',
     caseStudy: CASE_STUDY_DATATOUR,
-    github: 'https://github.com/donsfak/Portofolio/blob/main/case-studies/data-tour-2026-fraude-mobile-money.md',
+    github: 'https://github.com/AMij0101982872/DATA_TOUR',
   },
   {
     title: { fr: 'Weather Insights', en: 'Weather Insights' },
